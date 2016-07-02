@@ -38,5 +38,9 @@ defmodule Pers.Endpoint do
     key: "_pers_key",
     signing_salt: "a62q/tnt"
 
+  plug Pers.Plugs.Subdomain, 
+    router: Pers.AdminRouter,
+    only: ~w(admin)
+
   plug Pers.Router
 end

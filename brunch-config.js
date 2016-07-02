@@ -53,8 +53,15 @@ exports.config = {
   // Configure your plugins
   plugins: {
     babel: {
+      presets: ['es2015'],
       // Do not use ES6 compiler in vendor code
       ignore: [/web\/static\/vendor/]
+    },
+    postcss: {
+      processors: [
+        require("postcss-cssnext"),
+        require("lost")
+      ]
     }
   },
 

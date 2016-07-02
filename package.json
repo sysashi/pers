@@ -15,6 +15,10 @@
     "clean-css-brunch": "~2.0.0",
     "css-brunch": "~2.0.0",
     "javascript-brunch": "~2.0.0",
+    "lost": "^6.8.1",
+    "postcss": "^5.0.21",
+    "postcss-brunch": "^0.5.0",
+    "postcss-cssnext": "^2.6.0",
     "uglify-js-brunch": "~2.0.1"
   }
 }

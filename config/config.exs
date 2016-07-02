@@ -15,6 +15,7 @@ config :pers, Pers.Endpoint,
   secret_key_base: "fGlvfXb/yOqy4aZxNd8/KrZcpTkcggVmD6gofmF74YiZPXW31+Q1CoQxpgm3bU1z",
   render_errors: [view: Pers.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Pers.PubSub,
+           pool_size: 1,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger

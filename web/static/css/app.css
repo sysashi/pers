@@ -1,1 +1,193 @@
-/* This file is for your main application css. */
+:root {
+    --main-menu-item: #685782;
+    --content-width: 1000px;
+    --text-color: #54353b;
+    --link-color: #425bd6;
+    --header-height: 100px;
+    --footer-height: 40px;
+    --utility-bg-c: #f6f4ff;
+    --utility-border-c: #f3cccc;
+    --utility-border: 1px solid var(--utility-border-c);
+}
+h1, h2, h3, h4, h5 {
+    color: color(var(--text-color) blackness(+ 20%));
+}
+a {
+    color: var(--link-color);
+}
+html {
+    font-family: 'Vollkorn', serif; 
+    color: var(--text-color);
+}
+
+body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    /* lost-utility: edit; */
+}
+html, body, .container, #main-layout {
+    height: 100%;
+}
+.container {
+    position: relative;
+    /* lost-column: 2/4 0 0; */
+    lost-center: 690px;
+    lost-utility: clearfix;
+}
+#main-layout {
+    & .sticky-wrapper {
+        min-height: 100%;
+    }
+}
+#main-layout
+.content {
+    padding: 0 20px;
+    margin-top: 20px;
+    padding-bottom: var(--footer-height);
+    min-height: 100%;
+    /* lost-center: var(--content-width); */
+}
+
+/* Content page - link-list */
+#main-layout
+.content
+.link-list {
+    border-top: 1px dashed #ddd;
+    margin-top: 20px;
+    &:first-child {
+        border: none;
+    }
+    & ul {
+        list-style: none;
+        & li {
+              margin-top: 10px;
+              text-indent: -1em;
+              & a {
+                  margin-left: 5px;
+                  text-decoration: none;
+                  line-height: 25px;
+                  border-bottom: 1px dotted #999;
+              }
+              & > span {
+                  /* font-style: italic; */
+                  font-family: Courier, monospace;
+                  font-size: 80%;
+              }
+        }
+        & li:before {
+              content: "-";
+              padding-right: 5px;
+        }
+    }
+}
+#main-layout
+.content
+.mrl {
+    & > a {
+        text-decoration: none;
+        & > h2 {
+            color: var(--link-color);
+            font-style: italic;
+            display: inline-block;
+        }
+    }
+}
+
+/* Header & main menu */
+header {
+    background-color: var(--utility-bg-c);
+    /* lost-center: var(--content-width); */
+    lost-align: center;
+    height: var(--header-height);
+    border-bottom: var(--utility-border);
+    /* border-left: 1px solid #EEEEEE; */
+    /* border-right: 1px solid #EEEEEE; */
+	/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.03), 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 0 0 4px rgba(0, 0, 0, 0.04); */
+    /* box-shadow: -10 0 10px rgba(0, 0, 0, 0.03); */
+    /* box-shadow: -5px 21px 15px -16px rgba(0,0,0,0.23); */
+    /* box-shadow: 5px 50px 15px -46px rgba(0,0,0,0.23); */
+    /* box-shadow: -1px 16px 5px -15px rgba(0,0,0,0.13); */
+    /* box-shadow: -1px 8px 5px -6px rgba(0,0,0,0.13); */
+}
+.header
+.nav {
+    lost-column: 1;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.header
+.nav ul {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+.header
+.nav ul > li {
+    list-style: none;
+    display: inline;
+    margin: 4px 20px;
+    &:first-child {
+        margin-left: 0;
+    }
+}
+.header
+.nav ul > li > a {
+    padding: 4px 4px 0px 4px;
+    /* background-color: var(--main-menu-item); */
+    /* font-family: monospace; */
+    font-size: 1.2rem;
+    color: rgb(82, 67, 71); 
+    text-decoration: none;
+    text-transform: lowercase;
+    font-style: italic;
+    /* text-transform: capitalize; */
+    &:hover {
+        /*   background-color: color(
+        var(--main-menu-item) 
+        blackness(+ 50%));
+         */
+        border-color: #da5d5d;
+    }
+    &.active {
+        font-weight: bold;
+        border-color: #da5d5d;
+    }
+    border-bottom: 2px dotted #e4cece;
+}
+/* -- end of Header & menu */
+
+/* footer */
+.footer {
+    width: 100%;
+    height: calc(var(--footer-height) - 1);
+    margin-top: -var(--footer-height);
+    background-color: var(--utility-bg-c);
+    border-top: var(--utility-border);
+}
+.footer
+.inside-wrapper {
+    lost-utility: clearfix;
+    /* padding: 0 20px; */
+    width: 100%;
+    color: color(var(--text-color) lightness(+ 20%));  
+    /* font-style: italic; */
+    line-height: 20px;
+    /* font-family: 'Consolas', 'Monaco', monospace; */
+    font-family: Courier, monospace;
+    font-size: 12px;
+    & div {
+        margin-top: 10px;
+        lost-column: 1/3;
+        text-align: center;
+        &:before {
+            content: "\25C6";
+            margin-right: 7px;
+        }
+    }
+}
+/* -- end of footer */
+#pipe_canvas {
+    height: 100%;
+    lost-column: 1/3 0 0;
+}

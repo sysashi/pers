@@ -1,36 +1,29 @@
-<div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
-</div>
-
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
+<div id="home">
+  <div class="mrn link-list">
+    <h2>Recent notes:</h2>
     <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="https://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
+      <li><span>(19 days ago)</span><a href="#">dummy link</a></li>
+      <li><span>(a month ago)</span><a href="#">dummy link
+          which is really really long and very very annoying brake that will never happen
+          wtf
+      </a></li>
+      <li><a href="#">dummy link</a></li>
+      <li><a href="#">dummy link</a></li>
+      <li><a href="#">dummy link</a></li>
     </ul>
   </div>
-
-  <div class="col-lg-6">
-    <h4>Help</h4>
+  <div class="mrp link-list">
+    <h2>Recent projects:</h2>
     <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
+      <li><a href="#">dummy link</a></li>
+      <li><a href="#">dummy link</a></li>
+    </ul>
+  </div>
+  <div class="mrl link-list">
+    <a href="#"><h2>Log:</h2></a>
+    <ul>
+      <li>Log log log</li>
+      <li>log log log</li>
     </ul>
   </div>
 </div>

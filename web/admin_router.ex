@@ -1,4 +1,4 @@
-defmodule Pers.Router do
+defmodule Pers.AdminRouter do
   use Pers.Web, :router
 
   pipeline :browser do
@@ -13,15 +13,10 @@ defmodule Pers.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", alias: Pers, host: "admin." do
-    forward "/", AdminRouter
-  end
-
-
   scope "/", Pers do
     pipe_through :browser # Use the default browser stack
 
-    get "/*page", PageController, :index
+    get "/*page", AdminController, :index
   end
 
   # Other scopes may use custom stacks.
