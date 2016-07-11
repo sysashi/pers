@@ -10,7 +10,9 @@
 
     <title><%= title(@conn, "sysashi") || "sysashi's website" %></title>
 
+    <%= unless Mix.env == :dev do %>
     <link href="https://fonts.googleapis.com/css?family=Vollkorn" rel="stylesheet">
+    <%= end %>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
@@ -34,7 +36,7 @@
         </div>
         <footer class="footer">
           <div class="inside-wrapper">
-            <div><span><a href="#">about this site</a></span></div>
+            <div><span><a href="/about-site">about this site</a></span></div>
             <div><span>today: 75 | currently: 17 <span></div>
             <div><span>copypaste (c) 2016<span></div>
           </div>

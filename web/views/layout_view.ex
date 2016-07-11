@@ -2,7 +2,7 @@ defmodule Pers.LayoutView do
   use Pers.Web, :view
 
   def menu do
-    ["home": "/",
+     ["home": "/",
       "notes": "/notes",
       "projects": "/projects",
       "about me": "/about",
@@ -12,8 +12,6 @@ defmodule Pers.LayoutView do
   def active?(%Plug.Conn{path_info: []}, path) do
     if path == "" or path == "/" do
       :active
-    else
-      ""
     end
   end
 
@@ -24,8 +22,6 @@ defmodule Pers.LayoutView do
 
     if path_fragment == p do
       :active
-    else
-      ""
     end
   end
 

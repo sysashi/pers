@@ -7,9 +7,9 @@ defmodule Pers.Endpoint do
   #
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
-  plug Plug.Static,
-    at: "/", from: :pers, gzip: false,
-    only: ~w(css fonts images js favicon.ico robots.txt)
+   plug Plug.Static,
+     at: "/assets", from: :pers, gzip: false,
+     only: ~w(admin css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -36,11 +36,8 @@ defmodule Pers.Endpoint do
   plug Plug.Session,
     store: :cookie,
     key: "_pers_key",
-    signing_salt: "a62q/tnt"
-
-  plug Pers.Plugs.Subdomain, 
-    router: Pers.AdminRouter,
-    only: ~w(admin)
+    signing_salt: "a62q/tnt",
+    http_only: true
 
   plug Pers.Router
 end

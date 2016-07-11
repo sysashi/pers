@@ -1,0 +1,9 @@
+<div class="note">
+  <strong>Title:<%= @note.title %></strong>
+
+  <div class="note-content">
+    <%= raw @note.html %>
+  </div>
+
+  <%= link "Back", to: note_path(@conn, :index) %>
+</div>

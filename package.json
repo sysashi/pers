@@ -7,18 +7,29 @@
   },
   "dependencies": {
     "phoenix": "file:deps/phoenix",
-    "phoenix_html": "file:deps/phoenix_html"
+    "phoenix_html": "file:deps/phoenix_html",
+    "process": "^0.11.5",
+    "simplemde": "^1.11.2",
+    "vue": "^1.0.26",
+    "vue-resource": "^0.9.3",
+    "vue-router": "^0.7.13",
+    "vuex": "^1.0.0-rc.2"
   },
   "devDependencies": {
     "babel-brunch": "~6.0.0",
-    "brunch": "2.7.4",
+    "babel-runtime": "^5.8.0",
+    "brunch": "^2.7.4",
     "clean-css-brunch": "~2.0.0",
-    "css-brunch": "~2.0.0",
+    "css-brunch": "~2.6.0",
     "javascript-brunch": "~2.0.0",
-    "lost": "^6.8.1",
+    "lost": "^7.0.1",
     "postcss": "^5.0.21",
     "postcss-brunch": "^0.5.0",
     "postcss-cssnext": "^2.6.0",
-    "uglify-js-brunch": "~2.0.1"
+    "postcss-import": "^8.1.2",
+    "postcss-normalize": "^0.3.0",
+    "uglify-js-brunch": "~2.0.1",
+    "vue-brunch": "^1.1.2",
+    "webcolors": "^1.2.2"
   }
 }

@@ -51,6 +51,7 @@ defmodule Pers.Web do
 
       import Pers.Router.Helpers
       import Pers.ErrorHelpers
+      import Pers.ViewHelpers
       import Pers.Gettext
     end
   end

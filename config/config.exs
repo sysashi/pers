@@ -12,6 +12,7 @@ config :pers,
 # Configures the endpoint
 config :pers, Pers.Endpoint,
   url: [host: "localhost"],
+  static_url: [host: "localhost", path: "/assets"],
   secret_key_base: "fGlvfXb/yOqy4aZxNd8/KrZcpTkcggVmD6gofmF74YiZPXW31+Q1CoQxpgm3bU1z",
   render_errors: [view: Pers.ErrorView, accepts: ~w(html json)],
   pubsub: [name: Pers.PubSub,

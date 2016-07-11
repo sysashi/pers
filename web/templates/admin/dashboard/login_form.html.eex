@@ -1,0 +1,22 @@
+<div class="login-wrapper">
+  <div class="login-form">
+    <h2> Admin login: </h2>
+    <div class="login-error">
+    <%= if @error do %>
+      <p><%= @error.message %></p>
+    <% end %>
+    </div>
+    <%= form_for @changeset, 
+        dashboard_path(@conn, :login), 
+        fn f -> %> 
+
+      <%= label f, :name %>
+      <%= text_input f, :name %>
+
+      <%= label f, :password %>
+      <%= password_input f, :password %>
+
+    <%= submit "Let me in", class: "submit-button" %>
+    <% end %>
+  </div>
+</div>

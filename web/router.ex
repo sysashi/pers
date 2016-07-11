@@ -9,23 +9,36 @@ defmodule Pers.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :admin do
+    plug :admin_layout
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  scope "/", alias: Pers, host: "admin." do
-    forward "/", AdminRouter
+
+  scope "/admin" do
+    forward "/", Pers.AdminRouter
+  end
+
+  scope "/", alias: Pers do
+    pipe_through :browser
+
+    resources "/notes", NoteController, only: [:index, :show] 
+    resources "/projects", ProjectController, only: [:index, :show] 
+    
+    get "/", PageController, :index
+    get "/:page", PageController, :show
   end
 
 
-  scope "/", Pers do
-    pipe_through :browser # Use the default browser stack
-
-    get "/*page", PageController, :index
+  defp ensure_admin(conn, params) do
+    conn
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", Pers do
-  #   pipe_through :api
-  # end
+  
+  @admin_layout "admin_layout.html"
+  defp admin_layout(conn, _params) do
+    put_layout(conn, {Pers.AdminView, @admin_layout})
+  end
 end

@@ -1,0 +1,27 @@
+<div class="dashboard" id="dashboard">
+  <div class="sidebar" id="sidebar">
+    <div class="info-block block">
+      <div class="pad">
+        <h1> Dashboard </h1>
+        <h5> some info </h5>
+      </div>
+    </div>
+    <div class="menu-block block">
+      <div class="pad">
+        <h5> Resource name </h5>
+        <ul>
+          <li> manage </li>
+          <li> settings </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper">
+    <div class="utility-bar">
+      utility-bar
+      <%= link("logout", to: dashboard_path(@conn, :logout)) %>
+    </div>
+    <div class="content">
+    </div>
+  </div>
+</div>

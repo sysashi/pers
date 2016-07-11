@@ -1,0 +1,94 @@
+@import "webcolors/mrmrs";
+:root {
+    --button-action-new: #f8a710;
+    --color-lightblue: #ececff;
+    --color-1: #80CFDB;
+    --color-5: #004954;
+    --color-green: rgba(133, 204, 141, 1);
+    --color-red: rgba(204, 84, 1, 1);
+}
+/* common */
+html, body { 
+    width: 100%;
+    height: 100%;
+    color: #333;
+}
+.center-text {
+    text-align: center;
+}
+button {
+    color: #fff;
+    border: 1px solid;
+    border-color: color(var(--button-action-new) blackness(30%));
+    border-radius: 3px;
+    padding: 6px 8px;
+    background: var(--button-action-new);
+    color: color(var(--button-action-new) blackness(60%));
+    font-variant: small-caps;
+    font-size: 14px;
+    &:hover {
+        cursor: pointer;
+    }
+}
+button.calm {
+    background: var(--color-lightblue);
+    color: color(var(--color-lightblue) blackness(90%));
+    border-color: color(var(--color-lightblue) blackness(60%));
+}
+button.danger {
+    background: var(--color-red);
+    color: color(var(--color-red) whiteness(95%));
+    border-color: color(var(--color-red) blackness(30%));
+}
+button.save {
+    background: var(--color-green);
+    color: color(var(--color-green) blackness(60%));
+    border-color: color(var(--color-green) blackness(30%));
+}
+.flex-wrapper {
+    display: flex;
+    height: 100vh;
+}
+
+/* login page */
+.login-wrapper {
+    flex: 0 0 400px;
+    align-self: center;
+    margin: auto;
+}
+
+.login-wrapper
+.login-form {
+    padding: 40px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    & > h2 {
+        margin-top: 0;
+    }
+    & form > label {
+        font-style: italic;
+    }
+    & form > input {
+        padding: 4px 8px;
+        font-size: 18px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        border: 1px solid #777;
+        border-radius: 3px;
+        width: 100%;
+    }
+    & .login-error {
+        color: var(--color-red);
+        font-weight: 900;
+    }
+}
+
+.login-wrapper
+.login-form
+.submit-button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 6px 0;
+}
+/* /login-page */
+

@@ -2,15 +2,13 @@ exports.config = {
   // See http://brunch.io/#documentation for docs.
   files: {
     javascripts: {
-      joinTo: "js/app.js"
+      joinTo: {
+        "js/app.js": /^(web\/static\/js)|(node_modules\/)/,
+        "js/vendor.js":  /^(web\/static\/vendor)/,
+        "admin/js/app.js": /^(web\/static\/admin\/js)|(node_modules\/)/,
+        "admin/js/vendor.js": /^(web\/static\/admin\/vendor)/
+      }
 
-      // To use a separate vendor.js bundle, specify two files path
-      // https://github.com/brunch/brunch/blob/master/docs/config.md#files
-      // joinTo: {
-      //  "js/app.js": /^(web\/static\/js)/,
-      //  "js/vendor.js": /^(web\/static\/vendor)|(deps)/
-      // }
-      //
       // To change the order of concatenation of files, explicitly mention here
       // https://github.com/brunch/brunch/tree/master/docs#concatenation
       // order: {
@@ -21,10 +19,13 @@ exports.config = {
       // }
     },
     stylesheets: {
-      joinTo: "css/app.css",
-      order: {
-        after: ["web/static/css/app.css"] // concat app.css last
-      }
+      joinTo: {
+        "css/app.css": /^(web\/static\/css)|(dist\/css)/,
+        "admin/css/app.css": /^(web\/static\/admin\/css)|(dist\/css)/
+      },
+       order: {
+         before: ["web/static/css/app.css"] // concat app.css last
+       }
     },
     templates: {
       joinTo: "js/app.js"
@@ -55,19 +56,30 @@ exports.config = {
     babel: {
       presets: ['es2015'],
       // Do not use ES6 compiler in vendor code
-      ignore: [/web\/static\/vendor/]
+      ignore: [/web\/static\/vendor/, /web\/static\/admin\/vendor/]
+    },
+    vue: {
+      autoprefixer: false,
+      postcss: [
+        require("postcss-import"),
+        require("postcss-cssnext"),
+        require("lost")
+      ]
     },
     postcss: {
       processors: [
+        require("postcss-import"),
         require("postcss-cssnext"),
-        require("lost")
+        require("lost"),
+        require("postcss-normalize"),
       ]
     }
   },
 
   modules: {
     autoRequire: {
-      "js/app.js": ["web/static/js/app"]
+      "js/app.js": ["web/static/js/app"],
+      "admin/js/app.js": ["web/static/admin/js/app"]
     }
   },
 

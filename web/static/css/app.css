@@ -55,7 +55,7 @@ html, body, .container, #main-layout {
 .link-list {
     border-top: 1px dashed #ddd;
     margin-top: 20px;
-    &:first-child {
+    &:first-child, &:only-child {
         border: none;
     }
     & ul {
@@ -78,8 +78,15 @@ html, body, .container, #main-layout {
         & li:before {
               content: "-";
               padding-right: 5px;
+              /* font-weight: bold; */
+              /* font-size: 1.15rem; */
         }
     }
+}
+#main-layout
+.content
+.link-list:only-child {
+    border: none;
 }
 #main-layout
 .content
@@ -97,18 +104,11 @@ html, body, .container, #main-layout {
 /* Header & main menu */
 header {
     background-color: var(--utility-bg-c);
-    /* lost-center: var(--content-width); */
     lost-align: center;
     height: var(--header-height);
     border-bottom: var(--utility-border);
-    /* border-left: 1px solid #EEEEEE; */
-    /* border-right: 1px solid #EEEEEE; */
-	/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.03), 1px 1px 0 rgba(0, 0, 0, 0.05), -1px 1px 0 rgba(0, 0, 0, 0.05), 0 0 0 4px rgba(0, 0, 0, 0.04); */
-    /* box-shadow: -10 0 10px rgba(0, 0, 0, 0.03); */
-    /* box-shadow: -5px 21px 15px -16px rgba(0,0,0,0.23); */
-    /* box-shadow: 5px 50px 15px -46px rgba(0,0,0,0.23); */
-    /* box-shadow: -1px 16px 5px -15px rgba(0,0,0,0.13); */
-    /* box-shadow: -1px 8px 5px -6px rgba(0,0,0,0.13); */
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 .header
 .nav {
@@ -155,10 +155,36 @@ header {
     }
     border-bottom: 2px dotted #e4cece;
 }
-/* -- end of Header & menu */
+/* /Header & main menu */
+
+/* Notes */
+.notes {
+}
+.notes 
+.note-preview {
+}
+.notes
+.notes-pagination {
+    margin-top: 20px;
+    width: 100%;
+    height: auto;
+}
+/* /Notes */
+
+/* Pagination block */
+.pagination {
+    font-size: 1.1rem;
+    text-align: center;
+    & a {
+        text-decoration: none;
+    }
+}
+/* /Pagination block */
 
 /* footer */
 .footer {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
     width: 100%;
     height: calc(var(--footer-height) - 1);
     margin-top: -var(--footer-height);
@@ -186,7 +212,7 @@ header {
         }
     }
 }
-/* -- end of footer */
+/* /footer */
 #pipe_canvas {
     height: 100%;
     lost-column: 1/3 0 0;

@@ -2,28 +2,48 @@
   <div class="mrn link-list">
     <h2>Recent notes:</h2>
     <ul>
-      <li><span>(19 days ago)</span><a href="#">dummy link</a></li>
-      <li><span>(a month ago)</span><a href="#">dummy link
-          which is really really long and very very annoying brake that will never happen
-          wtf
-      </a></li>
-      <li><a href="#">dummy link</a></li>
-      <li><a href="#">dummy link</a></li>
-      <li><a href="#">dummy link</a></li>
+      <%= for note <- @recent_notes do %>
+        <div class="note-preview">
+          <li>
+            <span class="rel-date">
+              <%= rel_from_now(note.published_at) %>
+            </span>
+            <%= link "#{note.title}", 
+            to: note_path(@conn, :show, note) %>
+          </li>
+        </div>
+      <% end %>
     </ul>
   </div>
   <div class="mrp link-list">
     <h2>Recent projects:</h2>
     <ul>
-      <li><a href="#">dummy link</a></li>
-      <li><a href="#">dummy link</a></li>
+      <%= for project <- @recent_projects do %>
+        <div class="project-preview">
+          <li>
+            <span class="rel-date">
+              <%= rel_from_now(project.published_at) %>
+            </span>
+            <%= link "#{project.name}", 
+            to: project_path(@conn, :show, project) %>
+          </li>
+        </div>
+      <% end %>
     </ul>
   </div>
   <div class="mrl link-list">
     <a href="#"><h2>Log:</h2></a>
     <ul>
-      <li>Log log log</li>
-      <li>log log log</li>
+      <%= for log <- @recent_logs do %>
+        <div class="log-preview">
+          <li>
+            <span class="rel-date">
+              <%= rel_from_now(log.inserted_at) %>
+            </span>
+            <span> <%= log.body %> </span>
+          </li>
+        </div>
+      <% end %>
     </ul>
   </div>
 </div>
