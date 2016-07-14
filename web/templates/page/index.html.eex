@@ -31,7 +31,7 @@
       <% end %>
     </ul>
   </div>
-  <div class="mrl link-list">
+  <!-- <div class="mrl link-list">
     <a href="#"><h2>Log:</h2></a>
     <ul>
       <%= for log <- @recent_logs do %>
@@ -45,5 +45,5 @@
         </div>
       <% end %>
     </ul>
-  </div>
+  </div> -->
 </div>

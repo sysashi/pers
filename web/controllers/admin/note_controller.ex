@@ -9,7 +9,9 @@ defmodule Pers.Admin.NoteController do
   end
 
   def create(conn, %{"note" => note_params}) do
-    changeset = Note.changeset(%Note{}, note_params)
+    changeset = %Note{}
+    |> Note.changeset(note_params)
+    |> Note.changeset(:publish, note_params)
 
     case Repo.insert(changeset) do
       {:ok, note} ->
@@ -31,7 +33,9 @@ defmodule Pers.Admin.NoteController do
 
   def update(conn, %{"id" => id, "note" => note_params}) do
     note = Repo.get!(Note, id)
-    changeset = Note.changeset(note, note_params)
+    changeset = note
+    |> Note.changeset(note_params)
+    |> Note.changeset(:publish, note_params)
 
     case Repo.update(changeset) do
       {:ok, note} ->

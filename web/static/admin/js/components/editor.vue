@@ -2,63 +2,69 @@
   <div class="editor">
     <div class="top-bar">
       <div class="resource-actions actions" v-if="current_resource">
-          <button class="save" 
-          v-on:click="save_current"
-          v-if="is_new()"
-          >Save</button>
-          <button class="save"
-          v-on:click="save_current"
-          v-else
-          >Update</button>
-        <button class="danger" v-on:click="delte_current">Delete</button>
+        <button class="save" v-on:click="save" v-if="is_new">Save</button>
+        <button class="save" v-on:click="update" v-else>Update</button>
+        <button class="danger" v-on:click="delete">Delete</button>
       </div>
     </div>
     <div class="content">
-      <div class="resource-fields" v-if="current_resource">
-        <div class="field id non-editable" v-if="is_in('id', fields)">
-          <label> id </label> <span> {{ current_resource.id }} </span>
-        </div>
-        <div class="field title editable" v-if="is_in('title', fields)">
+      <div class="resource-fields">
+        <div class="field title editable">
           <label> Title </label>
-          <input v-model="current_resource.title">
+          <input :value="current_resource.title" @input="update_title">
         </div>
-        <div class="field link editable" v-if="is_in('link', fields)">
+        <div class="field link editable">
           <label> Link </label>
-          <input v-model="current_resource.link">
+          <input :value="current_resource.link" @input="update_link">
         </div>
         <div class="field published non-editable"
-          v-if="current_resource.published">
+          v-if="current_resource.published && current_resource.published_at">
           <label> Published at </label>
           <span> {{ current_resource.published_at }} </span>
           </div>
-          <div v-else class="field"> Not published yet </div>
+          <!-- <div v-else class="field"> Not published yet </div> -->
+          <label> Publish? </label>
+          <input type="checkbox" v-model="to_publish">
         </div>
         <div class="editor-wrapper">
           <input type="textarea" id="markdown-editor">
+          {{ current_resource.markdown }}
         </div>
       </div>
 </template>
 
 <script>
-import { notify } from "../vuex/actions"
+import { notify, update_ar_field, save_ar, update_ar, delete_ar } from "../vuex/actions"
 import SimpleMDE from "simplemde"
 
 export default {
 		vuex: {
 			actions: {
-				notify
-			}
+        notify,
+        update_ar_field,
+        save_ar,
+        update_ar,
+        delete_ar
+			},
+      getters: {
+        current_resource: (state) => {
+          return state.resources.active_resource
+        }
+      }
 		},
 		ready() {
       let simplemde = new SimpleMDE({ 
         element: document.getElementById("markdown-editor") 
       });
+      let it = this
+
+      simplemde.codemirror.on("focus", function(){
+         console.log(simplemde.value(it.current_resource.markdown));
+      });
+
       this.editor = simplemde
 		},
     props: {
-      current_resource: Object,
-      resource: Object,
-      r_name: String
     },
     data() {
       return {
@@ -66,77 +72,45 @@ export default {
       }
     },
     computed: {
-      fields() {
-        return Object.keys(this.current_resource)
-      },
       is_new() {
-        return current_resource.id ? true : false 
+        return this.current_resource.inserted_at ? false : true
+      },
+      to_publish: {
+        get() {
+          return this.current_resource.published 
+        },
+        set(val) {
+          this.update_ar_field("published", val)
+          if (!val) {this.update_ar_field("published_at", null)}
+        }
       }
     },
     methods: {
-    save_current(){
-      if(this.editor) {
-        let md = this.editor.value() 
-        this.current_resource.markdown = md 
-        this.current_resource.html = this.editor.options.previewRender(md)
-      }
-      var se = this.r_name
-      if (this.current_resource.id) {
-        // update exisiting
-        this.resource.update({id: this.current_resource.id},
-          {[se]: this.current_resource}).then((resp) => {
-          this.notify({ 
-            msg: `${se} was updated successfully`,
-            type: "success", 
-            error: {code: resp.status, detailed: resp.statusText}
-          })
-        })
-      } else {
-        // create new
-        this.resource.save({id: this.current_resource.id},
-          {[se]: this.current_resource}).then((resp) => {
-          this.current_resource = resp.json().data
-          this.notify({ 
-            msg: `${se} was created successfully`,
-            type: "success", 
-            timeout: 3000, 
-            error: {code: resp.status, detailed: resp.statusText}
-          })
-        })
-      }
-    },
-    delte_current(){
-      var se = this.r_name
-        this.resource.delete({id: this.current_resource.id}).then((resp) => {
-          this.notify({ 
-            msg: `${se} was deleted successfully`,
-            type: "success", 
-            timeout: 3000, 
-            error: {code: resp.status, detailed: resp.statusText}
-          })
-        })
-    },
-    show_editor(resource) {
-      this.current_resource = resource
-      if(needs_editor(resource)) {
-        if(!this.editor) {
-          let simplemde = new SimpleMDE({ 
-            element: document.getElementById("resource-editor") 
-          });
-          this.editor = simplemde
+      sync_editor() {
+        if(this.editor) {
+          let md = this.editor.value() 
+          this.update_ar_field("markdown", md)
+          this.update_ar_field("html", this.editor.options.previewRender(md))
         }
-
-        this.editor.value(resource.markdown || "")
-        console.log("Loaded editor for resource:", resource)
+      },
+      update_title(e) {
+        this.update_ar_field("title", e.target.value)
+      },
+      update_link(e) {
+        this.update_ar_field("link", e.target.value)
+      },
+      save(){
+        this.sync_editor()
+        this.save_ar()
+      },
+      update() {
+        this.sync_editor()
+        this.update_ar()
+      },
+      delete(){
+        this.delete_ar()
       }
-    },
-    is_in(key, array) {
-      return array.some(elem => key == elem)
     }
-  }
-}
-function is_in(key, array) {
-  return array.some(elem => key == elem)
 }
 </script>
 

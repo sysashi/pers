@@ -14,6 +14,9 @@ defmodule Pers.Admin.PageView do
       title: page.title,
       link: page.link,
       html: page.html,
-      markdown: page.markdown}
+      markdown: page.markdown,
+      published_at: page.published_at, 
+      updated_at: page.updated_at,
+      inserted_at: page.inserted_at}
   end
 end

@@ -4,8 +4,11 @@
         <span>{{ notification.msg }}</span>
       </div>
       <div class="meta">
-        <div class="code" v-show="notification.error.code">
-          <span> [code: {{notification.error.code}}] </span>
+        <div class="resp-info" v-if="notification.resp">
+          <div class="code">
+            <span>{{notification.resp.status}}: </span>
+            <span>{{notification.resp.statusText}}</span>
+          </div>
         </div>
       </div>
       <div class="close" v-on:click="close">
@@ -16,9 +19,7 @@
 <script>
 export default {
   methods: {
-    close() {
-      console.log("closeme!")
-    }
+    close() {}
   },
   computed: {
     type() {
@@ -34,12 +35,12 @@ export default {
 export const new_notification = (msg, type, opts) => {
   msg = msg ? msg === "" : "no msg set"
   timeout = opts.timeout || 600
-  let error = {code: opts.code, detailed: ""} 
+  let meta = {code: opts.code, detailed: ""} 
   return {
     msg,
     type,
     timeout,
-    error
+    meta
   }
 }
 </script>
@@ -62,7 +63,7 @@ export const new_notification = (msg, type, opts) => {
         flex: 1 1 250px;
         text-align: center;
         color: #FFF;
-        font-size: 32px;
+        font-size: 20px;
     }
     & .close {
         padding: 10px 10px 10px 20px;

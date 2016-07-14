@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard" id="dashboard">
     <notification
+      transition="fadeinout"
       v-for="notification in notifications"
       @click="remove_notification(notification)",
       :notification="notification">
@@ -13,7 +14,6 @@
 <script>
   import Notification from "./notification"
   import Sidebar from "./sidebar"
-  import UtilityBar from "./utility_bar"
   import store from "../vuex/store"
   import { remove_notification } from "../vuex/actions"
 
@@ -21,7 +21,6 @@
     store,
     components: {
       Sidebar,
-      UtilityBar,
       Notification
     },
     vuex: {
@@ -30,7 +29,7 @@
       },
       getters: {
         notifications(state) {
-          return state.notifications
+          return state.notifications.all
         }
       }
     },
@@ -57,7 +56,8 @@
 }
 .context {
     border-right: 1px solid #DDD;
-    flex: 0 0 400px;
+    flex: 1;
+    max-width: 450px;
 }
 .wrapper {
     flex: 2;
@@ -111,36 +111,5 @@
     flex: 2;
     overflow-y: scroll;
     padding: 20px;
-}
-
-.dashboard
-.sidebar {
-    height: 100%;
-    & .block {
-        lost-column: 1 0 0;
-        & .pad {
-            padding: 0 40px 10px 40px;
-        }
-    }
-    & h1, & h2, & h3, & h4, & h5 {
-        margin: 5px 0;
-    }
-}
-.dashboard
-.sidebar
-.block {
-    & > *:nth-child(1) {
-        margin-top: 0;
-        padding-top: 0;
-    }
-    border-bottom: 1px dashed #fff;
-}
-.dashboard
-.sidebar
-.menu-block {
-    & ul {
-        padding-bottom: 0;
-        margin-bottom: 0;
-    }
 }
 </style>

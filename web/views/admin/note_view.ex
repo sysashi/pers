@@ -15,6 +15,8 @@ defmodule Pers.Admin.NoteView do
       link: note.link,
       html: note.html,
       markdown: note.markdown,
-      published_at: note.published_at}
+      published_at: note.published_at,
+      updated_at: note.updated_at,
+      inserted_at: note.inserted_at}
   end
 end

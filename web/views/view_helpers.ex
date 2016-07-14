@@ -9,15 +9,15 @@ defmodule Pers.ViewHelpers do
     "#{sec} seconds ago"
   end
   defp _rel({{0, 1, 1}, {0, min, _sec}}) when min < 30 do
-    "Half hour ago"
+    "Half an hour ago"
   end
-  defp _rel({{0, 1, 1}, {hour, _min, _sec}})  when hour == 1 do
+  defp _rel({{0, 1, 1}, {hour, _min, _sec}})  when hour < 2 do
     "An hour ago"
   end
   defp _rel({{0, 1, 1}, {hour, _min, _sec}}) do
     "#{hour} hours ago"
   end
-  defp _rel({{0, 1, day}, {_hour, _min, _sec}}) when day == 1 do
+  defp _rel({{0, 1, day}, {_hour, _min, _sec}}) when day < 2 do
     "A day ago"
   end
   defp _rel({{0, 1, day}, {_hour, _min, _sec}}) do

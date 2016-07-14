@@ -50,6 +50,19 @@ button.save {
     height: 100vh;
 }
 
+/* always present */
+.fadeinout-transition {
+  transition: all .3s ease-out;
+  opacity: 1;
+}
+
+/* .expand-enter defines the starting state for entering */
+/* .expand-leave defines the ending state for leaving */
+.fadeinout-enter, .fadeinout-leave {
+  height: 0;
+  opacity: 0;
+}
+
 /* login page */
 .login-wrapper {
     flex: 0 0 400px;

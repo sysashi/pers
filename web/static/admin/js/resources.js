@@ -6,10 +6,9 @@ export const APIURL = api_url
 let resources = ["pages", "notes", "projects", "logs"]
 
 let menu_entries = {
-  "notes": ["manage", "settings", "show"],
-  "pages": ["manage", "settings", "test"],
-  "projects": ["manage", "settings"],
-  "logs": ["manage", "settings"],
+  "notes": ["manage"],
+  "pages": ["manage"],
+  "projects": ["manage"]
 }
 
 function build_menu(entries) {

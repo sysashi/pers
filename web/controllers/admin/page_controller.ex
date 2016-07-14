@@ -31,7 +31,9 @@ defmodule Pers.Admin.PageController do
 
   def update(conn, %{"id" => id, "page" => page_params}) do
     page = Repo.get!(Page, id)
-    changeset = Page.changeset(page, page_params)
+    changeset = page
+    |> Page.changeset(page_params)
+    |> Page.changeset(:publish, page_params)
 
     case Repo.update(changeset) do
       {:ok, page} ->

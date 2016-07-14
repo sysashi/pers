@@ -6,7 +6,7 @@ defmodule Pers.NoteController do
 
   def index(conn, params) do
     IO.inspect conn
-    count = Pers.Repo.one!(Note.count)
+    count = Pers.Repo.one!(Note.count_published)
     page_number = page_number(params["page"], 
                               count, 
                               @per_page) || 1

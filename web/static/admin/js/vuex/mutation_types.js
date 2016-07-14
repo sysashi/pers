@@ -1,0 +1,14 @@
+// resources
+export const UPDATE_RESOURCE = "UPDATE_RESOURCE"
+export const ACTIVE_RESOURCE = "ACTIVE_RESOURCE"
+export const RECEIVE_ONE = "RECEIVE_ONE"
+export const RECEIVE_ALL = "RECEIVE_ALL"
+export const UPDATE_AR_FIELD = "UPDATE_AR_FIELD"
+export const SET_AR_API = "SET_AR_API"
+export const REMOVE_RESOURCE = "REMOVE_RESOURCE"
+export const SET_CURRENT_RESOURCES = "SET_CURRENT_RESOURCES"
+
+// notifications
+export const PUT_NOTIFICATION = "PUT_NOTIFICATION" 
+export const REMOVE_NOTIFICATION = "REMOVE_NOTIFICATION"
+export const CLEAR_ALL = "CLEAR_ALL"
