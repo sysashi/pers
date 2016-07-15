@@ -12,7 +12,6 @@ config :logger, level: :warn
 # Configure your database
 config :pers, Pers.Repo,
   adapter: Ecto.Adapters.Postgres,
-  System.get_env("DB_USER")
   username: Sytem.get_env("POSTGRES_USER"),
   password: Sytem.get_env("POSTGRES_PASSWORD"),
   database: "pers_test",
