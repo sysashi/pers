@@ -43,10 +43,11 @@ html, body, .container, #main-layout {
 #main-layout
 .content {
     padding: 0 20px;
-    margin-top: 20px;
     padding-bottom: var(--footer-height);
     min-height: 100%;
-    /* lost-center: var(--content-width); */
+    & > div:only-child { 
+        margin: 20px 0;
+    }
 }
 
 /* Content page - link-list */
@@ -169,6 +170,27 @@ header {
     width: 100%;
     height: auto;
 }
+/* single note */
+.note {
+}
+.note
+.note-meta {
+    & > span {
+        margin-left: 10px;
+        font-style: italic;
+    }
+    & .right {
+        float: right;
+    }
+    & .left {
+        float: left;
+    }
+    & .time {
+    }
+
+    lost-utility: clearfix;
+}
+/* /single note */
 /* /Notes */
 
 /* Pagination block */

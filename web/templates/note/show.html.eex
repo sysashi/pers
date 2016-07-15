@@ -1,5 +1,8 @@
 <div class="note">
-  <strong>Title:<%= @note.title %></strong>
+  <div class="note-meta">
+    <span class="views right"> views: 489 </span>
+    <span class="time right"><%= simple_time(@note.published_at) %>,</span>
+  </div>
 
   <div class="note-content">
     <%= raw @note.html %>

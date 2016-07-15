@@ -70,9 +70,7 @@ export default {
       api.name = resource.slice(0, -1)
 
       this.set_ar_api(api)
-      if (!Object.keys(this.resources).length > 0) {
-        this.fetch_resources()
-      }
+      this.fetch_resources()
     }
   },
   components: {

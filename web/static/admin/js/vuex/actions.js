@@ -104,7 +104,7 @@ export const update_ar = ({dispatch, state, watch}) => {
         resp))
         let oldKey = r.active_resource.id
         dispatch(UPDATE_RESOURCE, oldKey, data)
-        set_active({dispatch}, data)
+        dispatch(ACTIVE_RESOURCE, data)
     })
     .catch((resp) => {
       notify({dispatch}, crud_notification(

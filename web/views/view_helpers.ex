@@ -1,4 +1,10 @@
 defmodule Pers.ViewHelpers do
+  def simple_time(%Ecto.DateTime{} = time) do
+    time
+    |> Ecto.DateTime.to_date
+    |> Ecto.Date.to_iso8601
+  end
+
   def rel_from_now(time) do
     now = Ecto.DateTime.utc
     diff_time = timediff(time, now)
@@ -6,7 +12,7 @@ defmodule Pers.ViewHelpers do
   end
 
   defp _rel({{0, 1, 1}, {0, 0, sec}}) do
-    "#{sec} seconds ago"
+    "Less then a minute ago"
   end
   defp _rel({{0, 1, 1}, {0, min, _sec}}) when min < 30 do
     "Half an hour ago"
