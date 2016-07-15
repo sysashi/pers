@@ -12,10 +12,10 @@ config :logger, level: :warn
 # Configure your database
 config :pers, Pers.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: Sytem.get_env("POSTGRES_USER"),
-  password: Sytem.get_env("POSTGRES_PASSWORD"),
+  username: System.get_env("POSTGRES_USER"),
+  password: System.get_env("POSTGRES_PASSWORD"),
   database: "pers_test",
-  hostname: Sytem.get_env("POSTGRES_HOST"),
+  hostname: System.get_env("POSTGRES_HOST"),
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :comeonin, :bcrypt_log_rounds, 4
