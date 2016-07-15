@@ -1,7 +1,7 @@
 defmodule Pers.Admin.NoteControllerTest do
   use Pers.ConnCase
 
-  alias Pers.Admin.Note
+  alias Pers.Note
   @valid_attrs %{html: "some content", link: "some content", markdown: "some content", title: "some content"}
   @invalid_attrs %{}
 

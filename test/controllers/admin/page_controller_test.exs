@@ -1,7 +1,7 @@
 defmodule Pers.Admin.PageControllerTest do
   use Pers.ConnCase
 
-  alias Pers.Admin.Page
+  alias Pers.Page
   @valid_attrs %{html: "some content", link: "some content", markdown: "some content", title: "some content"}
   @invalid_attrs %{}
 
