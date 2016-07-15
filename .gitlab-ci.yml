@@ -8,10 +8,17 @@ image: trenpixster/elixir:latest
 # Check out: http://docs.gitlab.com/ce/ci/docker/using_docker_images.html#what-is-service
 services:
   - postgres:latest
+variables:
+  POSTGRES_USER: pathetic
+  POSTGRES_PASSWORD: "pathetic"
 
 before_script:
   - mix deps.get
 
 mix:
   script:
+  - mix ecto.create
+  - mix ecto.migrate
+  - mix run priv/repo/seeds.exs
   - mix test
+ 
