@@ -19,12 +19,10 @@
       </div>
     </div>
     <div class="resource-editor">
-      <editor 
-        v-if="active_resource",
-        :r_name="singular_entity",
-        :current_resource="active_resource">
-      </editor>
-  </div>
+      <router-view 
+        v-if="active_resource" 
+        :resource="active_resource"></router-view> 
+    </div>
 </div>
 </template>
 
@@ -64,13 +62,17 @@ export default {
   route: {
     data({ to }) {
       let resource = to.params.resource
-      this.set_current_resources(resource)
 
-      let api = this.$resource(`${to.params.resource}{/id}`)
-      api.name = resource.slice(0, -1)
+      if (!this.fetched(resource) || !to.params.id) {
+        this.set_current_resources(resource)
+        let api = this.$resource(`${to.params.resource}{/id}`)
+        api.name = resource.slice(0, -1)
+        this.set_ar_api(api)
+      }
 
-      this.set_ar_api(api)
-      this.fetch_resources()
+      if (!this.fetched(resource)) {
+        this.fetch_resources({id: to.params.id})
+      }
     }
   },
   components: {
@@ -78,23 +80,28 @@ export default {
     Editor
   },
   computed: {
+    _fetched() {
+      return this.resources[this.current_resources] ? true : false
+    },
     singular_entity() {
       // FIXME
       return this.$route.params.resource.slice(0, -1)
     },
     sorted_resources() {
-      return  this.resources[this.current_resources]
-      const ids = Object.keys(this.resources)
-      if (ids.length > 0) {
-        let by = this.sortBy || "updated_at"
-        let array = []
-        ids.forEach(id => array.push(this.resources[id]))
-        array.sort((r1, r2) => {
-          let d1 = new Date(r1[by]).getTime()
-          let d2 = new Date(r2[by]).getTime()
-          return d2 - d1 
-        })
-        return array
+      if (this._fetched) {
+        let rs = this.resources[this.current_resources]
+        const ids = Object.keys(rs)
+        if (ids.length > 0) {
+          let by = this.sortBy || "updated_at"
+          let array = []
+          ids.forEach(id => array.push(rs[id]))
+          array.sort((r1, r2) => {
+            let d1 = new Date(r1[by]).getTime()
+            let d2 = new Date(r2[by]).getTime()
+            return d2 - d1 
+          })
+          return array
+        }
       }
     }
   },
@@ -103,11 +110,16 @@ export default {
       let new_resource = wrap_raw_resource(editable_r)
       this.add_resource(new_resource)
       this.set_active(new_resource)
+      this.$router.go({name: 'ResourceMarkdownEditor', 
+                      params: {id: new_resource.id}})  
+    },
+    fetched(rs) {
+      return this.resources[rs] ? true : false
     }
   },
   data() {
     return {
-      sortBy: null
+      sortBy: "published_at"
     }
   }
 }

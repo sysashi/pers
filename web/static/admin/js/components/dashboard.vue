@@ -42,6 +42,8 @@
 </script>
 
 <style lang="postcss">
+@custom-media --only-medium-screen (width >= 500px) and (width <= 1200px);
+
 *:focus {
   outline: none;
 }
@@ -58,6 +60,7 @@
     border-right: 1px solid #DDD;
     flex: 1;
     max-width: 450px;
+    min-width: 300px;
 }
 .wrapper {
     flex: 2;

@@ -6,6 +6,7 @@ defmodule Pers.ViewHelpers do
     |> Ecto.Date.to_iso8601
   end
 
+  def rel_from_now(nil), do: nil
   def rel_from_now(time) do
     now = Ecto.DateTime.utc
     diff_time = timediff(time, now)

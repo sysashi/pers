@@ -1,7 +1,7 @@
 <template>
   <div class="editor">
     <div class="top-bar">
-      <div class="resource-actions actions" v-if="current_resource">
+      <div class="resource-actions actions" v-if="resource">
         <button class="save" v-on:click="save" v-if="is_new">Save</button>
         <button class="save" v-on:click="update" v-else>Update</button>
         <button class="danger" v-on:click="delete">Delete</button>
@@ -11,25 +11,26 @@
       <div class="resource-fields">
         <div class="field title editable">
           <label> Title </label>
-          <input :value="current_resource.title" @input="update_title">
+          <input :value="resource.title" @input="update_title">
         </div>
         <div class="field link editable">
           <label> Link </label>
-          <input :value="current_resource.link" @input="update_link">
+          <input :value="resource.link" @input="update_link">
         </div>
         <div class="field published non-editable"
-          v-if="current_resource.published && current_resource.published_at">
+          v-if="resource.published && resource.published_at">
           <label> Published at </label>
-          <span> {{ current_resource.published_at }} </span>
-          </div>
+          <span> {{ resource.published_at }} </span>
+        </div>
           <!-- <div v-else class="field"> Not published yet </div> -->
+        <div class="field publish editable">
           <label> Publish? </label>
           <input type="checkbox" v-model="to_publish">
         </div>
-        <div class="editor-wrapper">
-          <input type="textarea" id="markdown-editor">
-          {{ current_resource.markdown }}
-        </div>
+      </div>
+      <div class="editor-wrapper">
+        <input type="textarea" id="markdown-editor">
+      </div>
       </div>
 </template>
 
@@ -38,46 +39,56 @@ import { notify, update_ar_field, save_ar, update_ar, delete_ar } from "../vuex/
 import SimpleMDE from "simplemde"
 
 export default {
+    name: "ResourceMarkdownEditor",
 		vuex: {
 			actions: {
-        notify,
         update_ar_field,
-        save_ar,
         update_ar,
-        delete_ar
-			},
-      getters: {
-        current_resource: (state) => {
-          return state.resources.active_resource
+        delete_ar,
+        save_ar,
+        remove_resource: ({dispatch}, key) => {
+          dispatch("REMOVE_RESOURCE", key)
         }
-      }
+			},
 		},
 		ready() {
       let simplemde = new SimpleMDE({ 
-        element: document.getElementById("markdown-editor") 
-      });
-      let it = this
-
-      simplemde.codemirror.on("focus", function(){
-         console.log(simplemde.value(it.current_resource.markdown));
+        element: document.getElementById("markdown-editor"),
+        spellChecker: false
       });
 
+      // alter active resource markdown field
+      simplemde.codemirror.on("inputRead", () => {
+        this.update_ar_field("markdown", this.editor.value())
+      })
+      
+      simplemde.value(this.resource.markdown)
       this.editor = simplemde
 		},
     props: {
+      resource: Object
     },
     data() {
       return {
         editor: null
       }
     },
+    route: {
+      data({ to }) {
+        // FIXME
+        // update value of the editor on new resource
+        if(this.editor) {
+          this.editor_val(this.resource.markdown)
+        }
+      }
+    },
     computed: {
       is_new() {
-        return this.current_resource.inserted_at ? false : true
+        return this.resource.inserted_at ? false : true
       },
       to_publish: {
         get() {
-          return this.current_resource.published 
+          return this.resource.published 
         },
         set(val) {
           this.update_ar_field("published", val)
@@ -86,6 +97,9 @@ export default {
       }
     },
     methods: {
+      editor_val(md) {
+        this.editor.value(md)
+      },
       sync_editor() {
         if(this.editor) {
           let md = this.editor.value() 
@@ -101,14 +115,19 @@ export default {
       },
       save(){
         this.sync_editor()
-        this.save_ar()
+        this.save_ar({router: this.$router})
       },
       update() {
         this.sync_editor()
         this.update_ar()
       },
       delete(){
-        this.delete_ar()
+        if (this.is_new) {
+          this.remove_resource(this.resource.id)
+        } else {
+          this.delete_ar()
+        }
+        this.$router.go({name: "ResourceCrudView"})
       }
     }
 }
@@ -124,6 +143,7 @@ export default {
     & .field {
       display: inline-block;
       margin-right: 10px;
+      margin-bottom: 10px;
       & > label {
         font-weight: bold;
         border-radius: 1px;

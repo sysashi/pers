@@ -4,18 +4,21 @@ defmodule Pers.Project do
 
   schema "projects" do
     field :desc, :string
+    field :status, :string
     field :name, :string
-    field :published_at, Ecto.DateTime
+    field :links, :map
 
+    field :published_at, Ecto.DateTime
     timestamps
   end
 
+  @req_fields [:desc, :name, :status, :links]
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:desc, :name])
+    |> cast(params, @req_fields)
     |> validate_required([:desc, :name])
   end
 

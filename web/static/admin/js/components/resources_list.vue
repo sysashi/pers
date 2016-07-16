@@ -2,9 +2,8 @@
   <div class="r-list">
     <ol>
       <resource 
-        v-for="resource in resources | orderBy 'published_at'" 
+        v-for="resource in resources" 
         track-by="id"
-        @click="mark_active(resource)"
         :active="is_active(resource)"
         :resource="resource"
        >

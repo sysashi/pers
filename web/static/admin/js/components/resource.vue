@@ -1,9 +1,14 @@
 <template>
 <li v-bind:class="{ 'active': active }">
-  <div class="r-preview">
+  <a
+    v-link="{name: 'ResourceMarkdownEditor', params: {id: resource.id}}"  
+    v-on:click="set_active(resource)"
+    class="r-preview">
+
     <div class="title">
-      <strong> Title: </strong> <span v-if="resource.title"> {{
-        resource.title }}</span>
+      <strong> Title: </strong> 
+      <span v-if="resource.title"> 
+        {{ resource.title }}</span>
       <span class="mute" v-else><i>(empty)</i></span>
       <span class="state old" 
         transition="fadeinout" 
@@ -22,7 +27,7 @@
       </span>
       <span class="mute" v-else><i>(empty)</i></span>
     </div>
-  </div>
+  </a>
 </li>
 </template>
 
@@ -31,14 +36,24 @@
     vuex: {
       getters: {
         last_changes: (state) => {
-          return state.resources.last_changes
+          return state.resources.last_changes[state.resources.current_resources]
+        },
+        current_resources: (state) => {
+          return state.resources.current_resources
+        }
+      },
+      actions: {
+        set_active: ({dispatch}, r) => {
+          dispatch("ACTIVE_RESOURCE", r)
         }
       }
     },
     computed: {
       any_changes() {
         let server_t = new Date(this.resource.updated_at).getTime()
-        return this.last_changes[this.resource.id] > server_t
+        if (this.last_changes) {
+          return this.last_changes[this.resource.id] > server_t
+        }
       }
     },
     props: [
@@ -49,7 +64,10 @@
 
 <style lang="postcss" scoped>
   .r-preview {
+    display: block;
     margin-bottom: 5px;
+    text-decoration: none;
+    color: #444;
   }
   .r-preview > div {
     margin-top: 5px;

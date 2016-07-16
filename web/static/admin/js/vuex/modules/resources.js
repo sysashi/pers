@@ -25,6 +25,7 @@ const mutations = {
     rs.forEach((r) => {
       if (!state.items[state.current_resources]) {
         Vue.set(state.items, state.current_resources, {})
+        Vue.set(state.last_changes, state.current_resources, {})
       }
       add_resource(state, r)
     })
@@ -43,11 +44,12 @@ const mutations = {
     state.api = api
   },
   [UPDATE_RESOURCE]: (state, key, r) => {
-    Vue.set(state.items[state.current_resources], key, r) 
+    remove(state, key)
+    Vue.set(state.items[state.current_resources], r.id, r) 
     commit_changes(state, r, r.updated_at)
   },
   [REMOVE_RESOURCE]: (state, key) => {
-    Vue.delete(state.items[state.current_resources], key)
+    remove(state, key)
   },
   [SET_CURRENT_RESOURCES]: (state, resources) => {
     state.current_resources = resources
@@ -68,5 +70,8 @@ function add_resource(state, r) {
 function commit_changes(state, r, t) {
   let resource = state.current_resources
   t = (t ? new Date(t) : new Date()).getTime()
-  Vue.set(state.last_changes, r.id, t)
+  Vue.set(state.last_changes[resource], r.id, t)
+}
+function remove(state, key) {
+    Vue.delete(state.items[state.current_resources], key)
 }

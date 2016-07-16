@@ -1,13 +1,22 @@
 <div class="projects">
   <div class="link-list">
-    <h2>Projects I'm involved with or currently working on</h2>
+    <h2>Projects I'm involved in or currently working on</h2>
     <ul>
+      <% available_link_classes = ~w(github gitlab) %> 
       <%= for project <- @projects do %>
-        <div class="note-preview">
+        <div class="project-preview">
           <li>
-            <%= link "#{project.name}", 
-            to: project_path(@conn, :show, project) %>
-            <span> <%= project.desc %> </span>
+            <span class="name"> <%= project.name %> </span>
+            <span class="desc">- (<%= project.desc %>)</span>
+            <%= if project.links do %>
+              <div class="links">
+                  <%= for {name, to} <- project.links do %>
+                    <%= link(name, to: to, 
+                     class: if(name in available_link_classes, 
+                     do: name, else: "default")) %> 
+                  <% end %>
+              </div>
+            <% end %>
           </li>
         </div>
       <% end %>

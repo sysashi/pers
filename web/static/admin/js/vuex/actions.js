@@ -29,22 +29,27 @@ export const set_current_resources = ({dispatch}, r) => {
 export const add_resource = ({dispatch}, r) => {
   dispatch(RECEIVE_ONE, r)
 }
-export const fetch_resources = ({dispatch, state}) => {
-  let r = state.resources
+export const fetch_resources = ({dispatch, state}, opts) => {
   state.resources.api.get()
     .then((resp) => {
         let wrapped = resp.json().data.map((r) => {
           return wrap_raw_resource(r)
         })
         // FIXME
-        dispatch(ACTIVE_RESOURCE, null)
-        // dispatch(CLEAR_ALL)
+        // ensure to show current path resource
+        if (opts && opts.id) {
+          let res = wrapped.find(r => r.id == opts.id)
+          dispatch(ACTIVE_RESOURCE, res)
+        } else {
+          dispatch(ACTIVE_RESOURCE, null)
+        }
+
         dispatch(RECEIVE_ALL, wrapped)
     })
     .catch((resp) => {
       notify({dispatch}, crud_notification(
         "error",
-        `Error fetching ${r.api.name}s`,
+        `Error fetching ${state.resources.current_resources}`,
         null,
         resp
       ))
@@ -64,7 +69,7 @@ export const set_ar_api = ({dispatch}, api) => {
   dispatch(SET_AR_API, api)
 }
 
-export const save_ar = ({dispatch, state}) => {
+export const save_ar = ({dispatch, state}, opts) => {
   let r = state.resources
   r.api.save({[r.api.name]: r.active_resource})
     .then((resp) => {
@@ -75,6 +80,12 @@ export const save_ar = ({dispatch, state}) => {
         1000,
         resp))
       let oldKey = r.active_resource.id
+      
+      // replace temp route with real id from the server
+      if (opts && opts.router) {
+        opts.router.replace(data.id.toString())
+      }
+
       dispatch(UPDATE_RESOURCE, oldKey, data)
       dispatch(ACTIVE_RESOURCE, data)
     })
@@ -92,7 +103,6 @@ export const save_ar = ({dispatch, state}) => {
     })
 }
 export const update_ar = ({dispatch, state, watch}) => {
-  console.log("ACTION UPDATE ACTIVE_RESOURCE")
   let r = state.resources
   r.api.update({id: r.active_resource.id}, {[r.api.name]: r.active_resource})
     .then((resp) => {
