@@ -23,7 +23,7 @@ defmodule Pers.Admin.PageControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, admin_page_path(conn, :index)
-    assert json_response(conn, 200)["data"] == []
+    assert conn.status == 200
   end
 
   test "shows chosen resource", %{conn: conn} do
