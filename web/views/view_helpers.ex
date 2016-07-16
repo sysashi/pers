@@ -1,4 +1,5 @@
 defmodule Pers.ViewHelpers do
+  def simple_time(nil), do: nil
   def simple_time(%Ecto.DateTime{} = time) do
     time
     |> Ecto.DateTime.to_date

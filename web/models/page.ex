@@ -18,7 +18,6 @@ defmodule Pers.Page do
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(page, :publish, params) do
-    IO.inspect params
     time = if params["published"] do 
       Ecto.DateTime.utc
     else 

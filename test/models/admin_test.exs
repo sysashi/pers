@@ -3,7 +3,7 @@ defmodule Pers.AdminTest do
 
   alias Pers.Admin
 
-  @valid_attrs %{name: "some content", pwhash: "some content"}
+  @valid_attrs %{name: "some content", password: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

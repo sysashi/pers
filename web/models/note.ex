@@ -28,7 +28,7 @@ defmodule Pers.Note do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @req_fields)
-    |> validate_required([])
+    |> validate_required([:title])
     |> unique_constraint(:link)
   end
 

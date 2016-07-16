@@ -5,7 +5,6 @@ defmodule Pers.NoteController do
   @per_page 6
 
   def index(conn, params) do
-    IO.inspect conn
     count = Pers.Repo.one!(Note.count_published)
     page_number = page_number(params["page"], 
                               count, 
@@ -24,12 +23,11 @@ defmodule Pers.NoteController do
   end
 
   def show(conn, %{"id" => id}) do
-    IO.inspect conn
     note = Repo.get!(Note, id)
     render(conn, "show.html", note: note)
   end
 
-  defp page_number(n, count, per_page) when is_integer(n)
+  defp page_number(n, _count, _per_page) when is_integer(n)
   and n < 1, do: 1
   defp page_number(n, count, per_page) when is_integer(n) do
     last_page = (count / per_page)

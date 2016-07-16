@@ -3,8 +3,8 @@ defmodule Pers.PageTest do
 
   alias Pers.Page
 
-  @valid_attrs %{}
-  @invalid_attrs %{}
+  @valid_attrs %{link: "somelink"}
+  @invalid_attrs %{link: nil}
 
   test "changeset with valid attributes" do
     changeset = Page.changeset(%Page{}, @valid_attrs)

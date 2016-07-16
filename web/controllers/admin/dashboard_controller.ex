@@ -1,6 +1,5 @@
 defmodule Pers.Admin.Dashboard do
   use Pers.Web, :controller 
-  import Pers.AdminRouter.Helpers
 
   # TODO decouple unprotected {login, logout, loginform} from
   # dashboard index (protected by plug at admin router)
@@ -25,13 +24,12 @@ defmodule Pers.Admin.Dashboard do
 
   def login(conn, %{"admin" => admin_params}) do
     changeset = Pers.Admin.changeset(%Pers.Admin{}, admin_params)
-
     case try_login(changeset) do
       {true, admin} ->
         conn 
         |> put_session(:login, admin)
         |> redirect(to: dashboard_path(conn, :index))
-      {false, changeset} -> 
+      {false, _changeset} -> 
         error = %{message: "Login error"}
         conn 
         |> put_flash(:error, error)
@@ -47,13 +45,13 @@ defmodule Pers.Admin.Dashboard do
   end
 
 
-  defp create_admin(changeset) do
+  def create_admin(changeset) do
     changeset = Pers.Admin.changeset(changeset) 
     pwhash = Ecto.Changeset.get_field(changeset, :password)
     |> Comeonin.Bcrypt.hashpwsalt()
 
     changeset 
-    |> put_change(:pwhash, pwhash)
+    |> Ecto.Changeset.put_change(:pwhash, pwhash)
   end
 
   defp try_login(changeset) do
