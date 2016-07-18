@@ -1,4 +1,6 @@
-import { PUT_NOTIFICATION, REMOVE_NOTIFICATION, CLEAR_ALL } from "../mutation_types"
+import { PUT_NOTIFICATION, 
+  REMOVE_NOTIFICATION, 
+  CLEAR_ALL } from "../mutation_types"
 
 const state = {
   all: []

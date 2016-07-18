@@ -3,7 +3,7 @@
     <div class="context">
       <div class="top-bar">
         <div class="actions" v-if="any">
-          <button class="calm" v-on:click="new"> Add new {{ singular_entity }}</button>
+          <button class="calm" v-on:click="new"> Add new {{ singular }}</button>
         </div>
       </div>
       <div class="content">
@@ -28,10 +28,9 @@
 
 <script>
 import { set_current_resources, add_resource, notify, set_ar_api, set_active, fetch_resources } from "../vuex/actions"
-import { New_notification } from "./notification"
+import { wrap_raw_resource, project, page_like } from "../resources"
 import ResourceListView from "./resources_list"
 import Editor from "./editor"
-import SimpleMDE from "simplemde"
 
 export default {
   name: "ResourceCrudView",
@@ -61,11 +60,12 @@ export default {
   },
   route: {
     data({ to }) {
-      let resource = to.params.resource
+      let resource = to.params.resource || to.custom_param
+      this.singular = resource.slice(0, -1)
 
       if (!this.fetched(resource) || !to.params.id) {
         this.set_current_resources(resource)
-        let api = this.$resource(`${to.params.resource}{/id}`)
+        let api = this.$resource(`${resource}{/id}`)
         api.name = resource.slice(0, -1)
         this.set_ar_api(api)
       }
@@ -82,10 +82,6 @@ export default {
   computed: {
     _fetched() {
       return this.resources[this.current_resources] ? true : false
-    },
-    singular_entity() {
-      // FIXME
-      return this.$route.params.resource.slice(0, -1)
     },
     sorted_resources() {
       if (this._fetched) {
@@ -107,10 +103,11 @@ export default {
   },
   methods: {
     new() {
-      let new_resource = wrap_raw_resource(editable_r)
+      let proto = classify_by_name(this.current_resources)
+      let new_resource = wrap_raw_resource({}, proto, true)
       this.add_resource(new_resource)
       this.set_active(new_resource)
-      this.$router.go({name: 'ResourceMarkdownEditor', 
+      this.$router.go({name: new_resource.editor, 
                       params: {id: new_resource.id}})  
     },
     fetched(rs) {
@@ -119,30 +116,22 @@ export default {
   },
   data() {
     return {
-      sortBy: "published_at"
+      sortBy: "published_at",
+      singular: null
     }
   }
 }
-const editable_r = {
-  html: "",
-  markdown: "",
-  link: "",
-  title: "",
-  published: null,
-}
-function wrap_raw_resource(r) {
-  let o = Object.assign({}, editable_r)
-  o = Object.assign(o, r)
-  if (r.published_at) { 
-    o.published = true 
-    o.published_at = new Date(r.published_at)
-    .toDateString()
+function classify_by_name(rsn) {
+  let note_like = ["notes", "pages"]
+  let project_like = ["projects"]
+
+  if (note_like.some(n => rsn === n)) {
+    return page_like
+  } else if (project_like.some(n => rsn === n)) {
+    return project
   }
-  o.id = `new${new Date().getTime()}`
-  return o
 }
 </script>
-
 <style lang="postcss" scoped>
   .top-bar {
     background: #EDFDFF; 

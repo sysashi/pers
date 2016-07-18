@@ -1,5 +1,6 @@
 import {ACTIVE_RESOURCE, 
         UPDATE_AR_FIELD,
+        UPDATE_AR_MAP,
         SET_AR_API, 
         RECEIVE_ALL,
         RECEIVE_ONE,
@@ -40,6 +41,9 @@ const mutations = {
     state.active_resource[field] = new_value
     commit_changes(state, state.active_resource)
   },
+  [UPDATE_AR_MAP]: (state, keyPath, value) => {
+    Vue.set(state.active_resource, keyPath, value)
+  },
   [SET_AR_API]: (state, api) => {
     state.api = api
   },
@@ -73,5 +77,5 @@ function commit_changes(state, r, t) {
   Vue.set(state.last_changes[resource], r.id, t)
 }
 function remove(state, key) {
-    Vue.delete(state.items[state.current_resources], key)
+  Vue.delete(state.items[state.current_resources], key)
 }

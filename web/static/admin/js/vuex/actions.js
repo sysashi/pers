@@ -2,6 +2,7 @@ import {REMOVE_NOTIFICATION,
         PUT_NOTIFICATION,
         SET_CURRENT_RESOURCES,
         UPDATE_AR_FIELD,
+        UPDATE_AR_MAP,
         SET_AR_API,
         ACTIVE_RESOURCE,
         RECEIVE_ALL,
@@ -9,6 +10,8 @@ import {REMOVE_NOTIFICATION,
         REMOVE_RESOURCE,
         CLEAR_ALL,
         UPDATE_RESOURCE} from "./mutation_types"
+
+import { wrap_raw_resource, page_like, project } from "../resources"
 
 export const remove_notification = ({dispatch}, notification) => {
   dispatch(REMOVE_NOTIFICATION, notification)
@@ -33,7 +36,7 @@ export const fetch_resources = ({dispatch, state}, opts) => {
   state.resources.api.get()
     .then((resp) => {
         let wrapped = resp.json().data.map((r) => {
-          return wrap_raw_resource(r)
+          return wrap_raw_resource(r, classify(r), false)
         })
         // FIXME
         // ensure to show current path resource
@@ -46,14 +49,6 @@ export const fetch_resources = ({dispatch, state}, opts) => {
 
         dispatch(RECEIVE_ALL, wrapped)
     })
-    .catch((resp) => {
-      notify({dispatch}, crud_notification(
-        "error",
-        `Error fetching ${state.resources.current_resources}`,
-        null,
-        resp
-      ))
-    })
 }
 export const update_resource = ({dispatch}, key, r) => {
   dispatch(UPDATE_RESOURCE, key, r)
@@ -64,6 +59,9 @@ export const set_active = ({dispatch}, r) => {
 export const update_ar_field = ({dispatch}, field, new_value) => {
   dispatch(UPDATE_AR_FIELD, {field, new_value})
 }
+export const update_ar_map = ({dispatch}, key, value) => {
+  dispatch(UPDATE_AR_MAP, key, value)
+}
 
 export const set_ar_api = ({dispatch}, api) => {
   dispatch(SET_AR_API, api)
@@ -73,12 +71,16 @@ export const save_ar = ({dispatch, state}, opts) => {
   let r = state.resources
   r.api.save({[r.api.name]: r.active_resource})
     .then((resp) => {
-      let data = wrap_raw_resource(resp.json().data)
+      let r = resp.json().data
+      let data = wrap_raw_resource(r, classify(r), false)
+
       notify({dispatch}, crud_notification(
         "success",
         `${r.api.name} was saved successfully.`,
-        1000,
-        resp))
+        1000, 
+        resp
+      ))
+
       let oldKey = r.active_resource.id
       
       // replace temp route with real id from the server
@@ -103,25 +105,22 @@ export const save_ar = ({dispatch, state}, opts) => {
     })
 }
 export const update_ar = ({dispatch, state, watch}) => {
-  let r = state.resources
-  r.api.update({id: r.active_resource.id}, {[r.api.name]: r.active_resource})
+  let rs = state.resources 
+  rs.api.update({id: rs.active_resource.id}, {[rs.api.name]: rs.active_resource})
     .then((resp) => {
-      let data = wrap_raw_resource(resp.json().data)
+      let r = resp.json().data
+      let data = wrap_raw_resource(r, classify(r), false)
+
       notify({dispatch}, crud_notification(
         "success",
-        `${r.api.name} was updated successfully.`,
-        1500,
-        resp))
-        let oldKey = r.active_resource.id
-        dispatch(UPDATE_RESOURCE, oldKey, data)
-        dispatch(ACTIVE_RESOURCE, data)
-    })
-    .catch((resp) => {
-      notify({dispatch}, crud_notification(
-        "error",
-        `Error updating ${r.api.name}`,
+        `${rs.api.name} was updated successfully.`,
+        1500, 
         resp
       ))
+
+      let oldKey = rs.active_resource.id
+      dispatch(UPDATE_RESOURCE, oldKey, data)
+      dispatch(ACTIVE_RESOURCE, data)
     })
 }
 export const delete_ar = ({dispatch, state}) => {
@@ -153,20 +152,11 @@ function crud_notification(type, msg, timeout, resp) {
   }
 }
 
-const editable_r = {
-  html: "",
-  markdown: "",
-  link: "",
-  title: "",
-  published: false,
-}
-function wrap_raw_resource(r) {
-  let o = Object.assign({}, editable_r)
-  o = Object.assign(o, r)
-  if (r.published_at) { 
-    o.published = true 
-    o.published_at = new Date(r.published_at)
-    .toDateString()
+function classify(r) {
+  if (r.hasOwnProperty("html") || r.hasOwnProperty("markdown")) {
+    return page_like
+  } else {
+    return project
   }
-  return o
 }
+

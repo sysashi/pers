@@ -5,36 +5,28 @@ defmodule Pers.Admin.ProjectController do
 
   def index(conn, _params) do
     projects = Repo.all(Project)
-    render(conn, "index.html", projects: projects)
-  end
-
-  def new(conn, _params) do
-    changeset = Project.changeset(%Project{})
-    render(conn, "new.html", changeset: changeset)
+    render(conn, "index.json", projects: projects)
   end
 
   def create(conn, %{"project" => project_params}) do
     changeset = Project.changeset(%Project{}, project_params)
 
     case Repo.insert(changeset) do
-      {:ok, _project} ->
+      {:ok, project} ->
         conn
-        |> put_flash(:info, "Project created successfully.")
-        |> redirect(to: project_path(conn, :index))
+        |> put_status(:created)
+        |> put_resp_header("location", project_path(conn, :show, project))
+        |> render("show.json", project: project)
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(Pers.ChangesetView, "error.json", changeset: changeset)
     end
   end
 
   def show(conn, %{"id" => id}) do
     project = Repo.get!(Project, id)
-    render(conn, "show.html", project: project)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    project = Repo.get!(Project, id)
-    changeset = Project.changeset(project)
-    render(conn, "edit.html", project: project, changeset: changeset)
+    render(conn, "show.json", project: project)
   end
 
   def update(conn, %{"id" => id, "project" => project_params}) do
@@ -43,11 +35,11 @@ defmodule Pers.Admin.ProjectController do
 
     case Repo.update(changeset) do
       {:ok, project} ->
-        conn
-        |> put_flash(:info, "Project updated successfully.")
-        |> redirect(to: project_path(conn, :show, project))
+        render(conn, "show.json", project: project)
       {:error, changeset} ->
-        render(conn, "edit.html", project: project, changeset: changeset)
+        conn
+        |> put_status(:unprocessable_entity)
+        |> render(Pers.ChangesetView, "error.json", changeset: changeset)
     end
   end
 
@@ -58,8 +50,6 @@ defmodule Pers.Admin.ProjectController do
     # it to always work (and if it does not, it will raise).
     Repo.delete!(project)
 
-    conn
-    |> put_flash(:info, "Project deleted successfully.")
-    |> redirect(to: project_path(conn, :index))
+    send_resp(conn, :no_content, "")
   end
 end

@@ -1,7 +1,7 @@
 <template>
 <li v-bind:class="{ 'active': active }">
   <a
-    v-link="{name: 'ResourceMarkdownEditor', params: {id: resource.id}}"  
+    v-link="{name: resource.editor, params: {id: resource.id}}"  
     v-on:click="set_active(resource)"
     class="r-preview">
 
