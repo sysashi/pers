@@ -19,16 +19,16 @@
         </div>
         <div class="field desc editable">
           <label> Description </label>
-          <textarea type="textarea" rows="5" cols="30" :value="resource.desc"
+          <textarea type="textarea" rows="5" cols="24" :value="resource.desc"
             @input="update_desc"></textarea>
         </div>
         <div class="field links editable">
           <label> Links <button v-on:click="add_link"> + </button></label>
           <ul>
             <li v-for="link in resource.links">
-              {{ $key }}
-              <input :value="link.showas" @input="update_link_key($event, $key)">:
-              <input :value="link.path" @input="update_link_value($event, $key)">
+              show as: <input :value="link.showas" @input="update_link_key($event, $key)">
+              path: <input :value="link.path" @input="update_link_value($event, $key)">
+              <button class="danger" v-on:click="delete_link($key)">×</button>
             </li>
           </ul>
         </div>
@@ -44,15 +44,33 @@
         </div> -->
       </div>
     </div>
+  </div>
 </template>
 
 <script>
 import * as actions from "../vuex/actions"
   export default {
-    vuex: {
-      actions
-    },
+    name: "ProjectEditor",
     props: ["resource"],
+    ready() {
+      // FIXME, use array instead or something else 
+      if (this.links) {
+        this.link_counter =+ Object.keys(this.links).length
+      }
+    },
+    data() {
+      return {
+        link_counter: 0
+      }
+    },
+    vuex: {
+      actions,
+      getters: {
+        links: (state) => {
+          return state.resources.active_resource.links
+        }
+      }
+    },
     computed: {
       is_new() {
         return this.resource.inserted_at ? false : true
@@ -70,15 +88,20 @@ import * as actions from "../vuex/actions"
       },
       // FIXME
       add_link(name) {
-        name = "github"
-        this.update_ar_map("links", {[name]: { showas: "" , path: "" }})
+        name = this.link_counter 
+        this.link_counter++
+        this.update_ar_map("links", name, {showas: "", path: ""})
+      },
+      delete_link(key) {
+        this.update_ar_map("links", key, null)
       },
       update_link_key(e, key) {
-        console.log(key)
-        this.update_ar_map("links", `showas`, e.target.value)
+        let path = this.links[key].path
+        this.update_ar_map("links", key, {showas: e.target.value, path}) 
       },
       update_link_value(e, key) {
-        this.update_ar_map("links", `${key}.path`, e.target.value)
+        let showas = this.links[key].showas
+        this.update_ar_map("links", key, {path: e.target.value, showas}) 
       },
       save(){
         this.save_ar({router: this.$router})
@@ -102,6 +125,17 @@ import * as actions from "../vuex/actions"
 .top-bar {
   background: #EDFDFF; 
 }
+.links {
+  & ul {
+    list-style: none;
+  }
+  & li {
+    margin-bottom: 10px;
+    & button {
+      padding: 2px 4px;
+    }
+  }
+}
 .editor {
   & .resource-fields {
     margin-bottom: 20px;
@@ -109,7 +143,7 @@ import * as actions from "../vuex/actions"
       display: block;
       margin-right: 10px;
       margin-bottom: 10px;
-      & > label {
+      & label {
         display: inline-block;
         min-width: 10%;
         font-weight: bold;
@@ -118,28 +152,33 @@ import * as actions from "../vuex/actions"
         padding: 1px 2px;
       }
       &.editable {
-        & > input {
+        & input {
            background: rgba(58, 238, 110, 0.1);
         }
       }
       &.ncn-editable {
-        & > input {
+        & input {
           background: rgba(244, 127, 138, 0.7);
           color: #FFF;
         }
       }
-      & > input {
+      & input {
         padding: 5px;
         line-height: 18px;
         border-radius: 3px;
-        border: 1px solid var(--color-silver);
+        border: 1px solid #DDD;
         font-family: "Consolas", sans-serif;
         font-size: 18px;
       }
+      & > textarea {
+        border: 1px solid #DDD;
+        border-radius: 3px;
+        background: rgba(58, 238, 110, 0.1);
+      }
 
       /* specific */
-      &.title > input {
-        min-width: 400px;
+      &.name > input {
+        min-width: 300px;
       }
     }
   }

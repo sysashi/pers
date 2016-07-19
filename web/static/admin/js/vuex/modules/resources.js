@@ -41,8 +41,16 @@ const mutations = {
     state.active_resource[field] = new_value
     commit_changes(state, state.active_resource)
   },
-  [UPDATE_AR_MAP]: (state, keyPath, value) => {
-    Vue.set(state.active_resource, keyPath, value)
+  [UPDATE_AR_MAP]: (state, obj, key, value) => {
+    if (!state.active_resource[obj]) {
+      Vue.set(state.active_resource, obj, {})
+    }
+
+    if (!value) {
+      Vue.delete(state.active_resource[obj], key)
+    } else {
+      Vue.set(state.active_resource[obj], key, value)
+    }
   },
   [SET_AR_API]: (state, api) => {
     state.api = api

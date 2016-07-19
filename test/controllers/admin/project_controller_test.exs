@@ -30,14 +30,18 @@ defmodule Pers.Admin.ProjectControllerTest do
   end
 
   test "shows chosen resource", %{conn: conn} do
+    import Ecto.DateTime, only: [to_iso8601: 1]
     project = Repo.insert! %Project{}
     conn = get conn, admin_project_path(conn, :show, project)
+    # FIXME  do something with datetime fields
     assert json_response(conn, 200)["data"] == %{"id" => project.id,
       "name" => project.name,
       "links" => project.links,
       "desc" => project.desc,
       "status" => project.status,
-      "published_at" => project.published_at}
+      "published_at" => project.published_at,
+      "updated_at" => to_iso8601(project.updated_at),
+      "inserted_at" => to_iso8601(project.inserted_at)}
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do

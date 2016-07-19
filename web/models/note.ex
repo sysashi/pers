@@ -19,10 +19,19 @@ defmodule Pers.Note do
   Builds a changeset based on the `struct` and `params`.
   """
   def changeset(note, :publish, params) do
-    time = if params["published"], do: Ecto.DateTime.utc, else: nil 
-    note
-    |> cast(params, [:published])
-    |> put_change(:published_at, time)
+    already_published = !!params["published_at"]
+    publish? = !!params["published"]
+
+    cond do
+      publish? && already_published -> 
+        note
+      publish? && !already_published ->
+        note
+        |> put_change(:published_at, Ecto.DateTime.utc)
+      !publish? -> 
+        note
+        |> put_change(:published_at, nil)
+    end
   end 
 
   def changeset(struct, params \\ %{}) do

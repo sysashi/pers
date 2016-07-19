@@ -1,4 +1,11 @@
 defmodule Pers.ViewHelpers do
+  def referer(conn) do
+    case Plug.Conn.get_req_header(conn, "referer") do
+      [ref] -> ref
+      [] -> "/"
+    end
+  end
+
   def simple_time(nil), do: nil
   def simple_time(%Ecto.DateTime{} = time) do
     time
@@ -9,8 +16,8 @@ defmodule Pers.ViewHelpers do
   def rel_from_now(nil), do: nil
   def rel_from_now(time) do
     now = Ecto.DateTime.utc
-    diff_time = timediff(time, now)
-    _rel(diff_time)
+    diff = timediff(time, now)
+    _rel(diff)
   end
 
   defp _rel({{0, 1, 1}, {0, 0, sec}}) do

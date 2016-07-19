@@ -1,6 +1,7 @@
 <template>
   <div class="crud-view">
     <div class="context">
+
       <div class="top-bar">
         <div class="actions" v-if="any">
           <button class="calm" v-on:click="new"> Add new {{ singular }}</button>
@@ -21,7 +22,8 @@
     <div class="resource-editor">
       <router-view 
         v-if="active_resource" 
-        :resource="active_resource"></router-view> 
+        :resource="active_resource">
+      </router-view> 
     </div>
 </div>
 </template>

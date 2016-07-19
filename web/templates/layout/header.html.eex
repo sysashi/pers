@@ -1,0 +1,10 @@
+<header class="header" role="menu">
+  <nav class="nav" id="main-nav" role="navigation">
+    <ul>
+      <%= for {name, p} <- menu do %>
+        <li><%= link(to_string(name), to: p, 
+         class: active?(@conn, p)) %></li>
+      <% end %>
+    </ul>
+  </nav>
+</header>

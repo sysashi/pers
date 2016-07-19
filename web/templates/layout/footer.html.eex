@@ -1,0 +1,7 @@
+<footer class="footer">
+  <div class="inside-wrapper">
+    <div><span><%= link("about this site", to: "/about-site",
+     class: active?(@conn, "about-site")) %> </span></div>
+    <div><span>copypaste (c) 2016</span></div>
+  </div>
+</footer>

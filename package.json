@@ -17,7 +17,8 @@
   },
   "devDependencies": {
     "babel-brunch": "~6.0.0",
-    "babel-runtime": "^5.8.0",
+    "babel-preset-stage-2": "^6.11.0",
+    "babel-runtime": "^5.8.38",
     "brunch": "^2.7.4",
     "clean-css-brunch": "~2.0.0",
     "css-brunch": "~2.6.0",

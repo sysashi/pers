@@ -10,10 +10,10 @@
             <span class="desc">- (<%= project.desc %>)</span>
             <%= if project.links do %>
               <div class="links">
-                  <%= for {name, to} <- project.links do %>
-                    <%= link(name, to: to, 
-                     class: if(name in available_link_classes, 
-                     do: name, else: "default")) %> 
+                <%= for {i, l} <- project.links do %>
+                    <%= link(l["showas"], to: l["path"], 
+                     class: if(l["showas"] in available_link_classes, 
+                     do: l["showas"], else: "default")) %> 
                   <% end %>
               </div>
             <% end %>

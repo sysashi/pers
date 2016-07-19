@@ -3,6 +3,7 @@ defmodule Pers.Endpoint do
 
   socket "/socket", Pers.UserSocket
 
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
@@ -21,6 +22,8 @@ defmodule Pers.Endpoint do
 
   plug Plug.RequestId
   plug Plug.Logger
+
+  plug Stats.Plug
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],

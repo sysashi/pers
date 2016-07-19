@@ -4,18 +4,24 @@ defmodule Pers.ErrorViewTest do
   # Bring render/3 and render_to_string/3 for testing custom views
   import Phoenix.View
 
-  test "renders 404.html" do
-    assert render_to_string(Pers.ErrorView, "404.html", []) ==
+  setup %{conn: conn} do
+    # FIXME
+    # setup conn for using default endpoint
+    {:ok, conn: get(conn, "/")}
+  end
+
+  test "renders 404.html", %{conn: conn} do
+    assert render_to_string(Pers.ErrorView, "404.html", [conn: conn]) =~
            "Page not found"
   end
 
-  test "render 500.html" do
-    assert render_to_string(Pers.ErrorView, "500.html", []) ==
+  test "render 500.html", %{conn: conn} do
+    assert render_to_string(Pers.ErrorView, "505.html", [conn: conn]) =~
            "Internal server error"
   end
 
-  test "render any other" do
-    assert render_to_string(Pers.ErrorView, "505.html", []) ==
+  test "render any other", %{conn: conn} do
+    assert render_to_string(Pers.ErrorView, "505.html", [conn: conn]) =~
            "Internal server error"
   end
 end

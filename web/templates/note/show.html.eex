@@ -1,12 +1,12 @@
 <div class="note">
   <div class="note-meta">
-    <span class="views right"> views: 489 </span>
-    <span class="time right"><%= simple_time(@note.published_at) %>,</span>
+    <!-- <span class="views right"> views: 489 </span> -->
+    <span class="time right"><%= simple_time(@note.published_at) %></span>
   </div>
 
   <div class="note-content">
     <%= raw @note.html %>
   </div>
 
-  <%= link "Back", to: note_path(@conn, :index) %>
+  <%= link "Back", to: referer(@conn) %>
 </div>

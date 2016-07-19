@@ -1,4 +1,9 @@
 <div id="home">
+  <div class="short-info">
+    I'm Boris Gnezdilov, I like tech and new shiny things but always trying to stay
+    on one line with what I love the most - helping people with technology knowledge I have.
+    You can read a little bit more about me <a href="/about">here</a>. 
+  </div>
   <div class="mrn link-list">
     <h2>Recent notes:</h2>
     <ul>
@@ -21,9 +26,6 @@
       <%= for project <- @recent_projects do %>
         <div class="project-preview">
           <li>
-            <span class="rel-date">
-              <%= rel_from_now(project.published_at) %>
-            </span>
             <%= link "#{project.name}", 
             to: project_path(@conn, :show, project) %>
           </li>

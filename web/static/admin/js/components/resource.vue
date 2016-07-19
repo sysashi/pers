@@ -6,10 +6,17 @@
     class="r-preview">
 
     <div class="title">
-      <strong> Title: </strong> 
       <span v-if="resource.title"> 
-        {{ resource.title }}</span>
-      <span class="mute" v-else><i>(empty)</i></span>
+      <strong> Title: </strong> 
+        {{ resource.title }}
+      </span>
+
+      <span v-if="resource.name"> 
+      <strong> Name: </strong> 
+        {{ resource.name }}
+      </span>
+
+      <!-- <span class="mute" v-else><i>(empty)</i></span> -->
       <span class="state old" 
         transition="fadeinout" 
         v-if="any_changes">✘</span>
@@ -20,13 +27,13 @@
       <span class="state recent" v-if="active">✔</span>
       -->
     </div>
-    <div class="link">
+    <div class="link" v-if="resource.link">
       <span> Link: </span>
-      <span class="link" v-if="resource.link"> 
+      <span class="link"> 
         {{ resource.link }} 
       </span>
-      <span class="mute" v-else><i>(empty)</i></span>
     </div>
+    <!-- <span class="mute" v-else><i>(empty)</i></span> -->
   </a>
 </li>
 </template>

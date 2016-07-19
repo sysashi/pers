@@ -8,7 +8,6 @@ import {REMOVE_NOTIFICATION,
         RECEIVE_ALL,
         RECEIVE_ONE,
         REMOVE_RESOURCE,
-        CLEAR_ALL,
         UPDATE_RESOURCE} from "./mutation_types"
 
 import { wrap_raw_resource, page_like, project } from "../resources"
@@ -19,11 +18,12 @@ export const remove_notification = ({dispatch}, notification) => {
 
 export const notify = ({dispatch}, notification) => {
   dispatch(PUT_NOTIFICATION, notification)
-    if(notification.timeout){
-      setTimeout(() => {
-        dispatch(REMOVE_NOTIFICATION, notification)
-      }, notification.timeout)
-    }
+
+  if(notification.timeout){
+    setTimeout(() => {
+      dispatch(REMOVE_NOTIFICATION, notification)
+    }, notification.timeout)
+  }
 }
 
 export const set_current_resources = ({dispatch}, r) => {
@@ -31,24 +31,6 @@ export const set_current_resources = ({dispatch}, r) => {
 }
 export const add_resource = ({dispatch}, r) => {
   dispatch(RECEIVE_ONE, r)
-}
-export const fetch_resources = ({dispatch, state}, opts) => {
-  state.resources.api.get()
-    .then((resp) => {
-        let wrapped = resp.json().data.map((r) => {
-          return wrap_raw_resource(r, classify(r), false)
-        })
-        // FIXME
-        // ensure to show current path resource
-        if (opts && opts.id) {
-          let res = wrapped.find(r => r.id == opts.id)
-          dispatch(ACTIVE_RESOURCE, res)
-        } else {
-          dispatch(ACTIVE_RESOURCE, null)
-        }
-
-        dispatch(RECEIVE_ALL, wrapped)
-    })
 }
 export const update_resource = ({dispatch}, key, r) => {
   dispatch(UPDATE_RESOURCE, key, r)
@@ -59,29 +41,48 @@ export const set_active = ({dispatch}, r) => {
 export const update_ar_field = ({dispatch}, field, new_value) => {
   dispatch(UPDATE_AR_FIELD, {field, new_value})
 }
-export const update_ar_map = ({dispatch}, key, value) => {
-  dispatch(UPDATE_AR_MAP, key, value)
+export const update_ar_map = ({dispatch}, map, key, value) => {
+  dispatch(UPDATE_AR_MAP, map, key, value)
 }
 
 export const set_ar_api = ({dispatch}, api) => {
   dispatch(SET_AR_API, api)
 }
 
+export const fetch_resources = ({dispatch, state}, opts) => {
+  state.resources.api.get()
+    .then((resp) => {
+      let wrapped = resp.json().data.map((r) => {
+        return wrap_raw_resource(r, classify(r), false)
+      })
+        // FIXME
+        // ensure to show current path resource
+      if (opts && opts.id) {
+        let res = wrapped.find(r => r.id == opts.id)
+        dispatch(ACTIVE_RESOURCE, res)
+      } else {
+        dispatch(ACTIVE_RESOURCE, null)
+      }
+
+      dispatch(RECEIVE_ALL, wrapped)
+    })
+}
+
 export const save_ar = ({dispatch, state}, opts) => {
-  let r = state.resources
-  r.api.save({[r.api.name]: r.active_resource})
+  let rs = state.resources
+  rs.api.save({[rs.api.name]: rs.active_resource})
     .then((resp) => {
       let r = resp.json().data
       let data = wrap_raw_resource(r, classify(r), false)
 
       notify({dispatch}, crud_notification(
         "success",
-        `${r.api.name} was saved successfully.`,
+        `${rs.api.name} was saved successfully.`,
         1000, 
         resp
       ))
 
-      let oldKey = r.active_resource.id
+      let oldKey = rs.active_resource.id
       
       // replace temp route with real id from the server
       if (opts && opts.router) {
@@ -98,13 +99,13 @@ export const save_ar = ({dispatch, state}, opts) => {
       })
       notify({dispatch}, crud_notification(
         "error",
-        formatted_errors || `Error saving ${r.api.name}`,
+        formatted_errors || `Error saving ${rs.api.name}`,
         null,
         resp
       ))
     })
 }
-export const update_ar = ({dispatch, state, watch}) => {
+export const update_ar = ({dispatch, state}) => {
   let rs = state.resources 
   rs.api.update({id: rs.active_resource.id}, {[rs.api.name]: rs.active_resource})
     .then((resp) => {

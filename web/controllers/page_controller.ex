@@ -15,6 +15,7 @@ defmodule Pers.PageController do
     case Repo.get_by(Pers.Page, link: page_link) do
       nil -> 
         conn
+        |> put_layout(false)
         |> put_status(:not_found)
         |> render(Pers.ErrorView, "404.html")
       page ->
