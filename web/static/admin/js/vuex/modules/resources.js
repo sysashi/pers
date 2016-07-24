@@ -23,15 +23,13 @@ const mutations = {
     state.active_resource = r
   },
   [RECEIVE_ALL]: (state, rs) => {
+    init(state)
     rs.forEach((r) => {
-      if (!state.items[state.current_resources]) {
-        Vue.set(state.items, state.current_resources, {})
-        Vue.set(state.last_changes, state.current_resources, {})
-      }
       add_resource(state, r)
     })
   },
   [RECEIVE_ONE]: (state, r) => {
+    init(state)
     add_resource(state, r)
   },
   [CLEAR_ALL]: (state) => {
@@ -71,6 +69,13 @@ const mutations = {
 export default {
   state,
   mutations
+}
+
+function init(state) {
+  if (!state.items[state.current_resources]) {
+    Vue.set(state.items, state.current_resources, {})
+    Vue.set(state.last_changes, state.current_resources, {})
+  }
 }
 
 function add_resource(state, r) {

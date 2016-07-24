@@ -99,6 +99,7 @@ export default {
     new() {
       let proto = classify_by_name(this.current_resources)
       let new_resource = wrap_raw_resource({}, proto, true)
+      console.log(new_resource)
       this.add_resource(new_resource)
       this.set_active(new_resource)
       this.$router.go({name: new_resource.editor, 
