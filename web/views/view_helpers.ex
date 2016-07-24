@@ -1,4 +1,7 @@
 defmodule Pers.ViewHelpers do
+  def server_url do
+    Pers.Endpoint.url
+  end
   def referer(conn) do
     case Plug.Conn.get_req_header(conn, "referer") do
       [ref] -> ref

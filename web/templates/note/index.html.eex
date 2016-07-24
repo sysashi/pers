@@ -25,12 +25,12 @@
           newer = ((@page_number - 1) * @per_page) 
         %> 
         <%= if @page_number <= max_page do %>
-          <%= link("(#{left_older}) older <", 
+          <%= link("(#{left_older}) older", 
            to: note_path(@conn, :index, next_page_params), 
            class: "next") %>
         <%= end %>
         <%= unless @page_number == 1 do %>
-          <%= link("> newer (#{newer})", 
+          <%= link("newer (#{newer})", 
            to: note_path(@conn, :index, prev_page_params), 
            class: "prev") %>
         <%= end %>

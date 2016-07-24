@@ -11,15 +11,18 @@ defmodule Pers.Admin.Dashboard do
   end
 
   def login_form(conn, _params) do
-    changeset = if prev_changeset = conn.assigns[:prev_changeset] do
-      prev_changeset
-    else
-      Pers.Admin.changeset(%Pers.Admin{})
-    end
+    changeset = if prev_changeset = conn.assigns[:prev_changeset], 
+      do: prev_changeset, else: Pers.Admin.changeset(%Pers.Admin{})
 
     error = get_flash(conn, :error)
-    conn
-    |> render("login_form.html", changeset: changeset, error: error)
+  
+    if get_session(conn, :login) do
+      conn
+      |> redirect(to: dashboard_path(conn, :index))
+    else
+      conn
+      |> render("login_form.html", changeset: changeset, error: error)
+    end
   end
 
   def login(conn, %{"admin" => admin_params}) do

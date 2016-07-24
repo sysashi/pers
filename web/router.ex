@@ -52,6 +52,7 @@ defmodule Pers.Router do
     resources "/notes", NoteController, only: [:index, :show] 
     resources "/projects", ProjectController, only: [:index, :show] 
     
+    get "/sitemap.xml", SitemapController, :sitemap
     get "/", PageController, :index
     get "/:page", PageController, :show
   end
@@ -61,7 +62,11 @@ defmodule Pers.Router do
       %Pers.Admin{} ->
         conn
         _ -> 
-        halt(conn)
+        conn
+        |> put_layout(false)
+        |> put_status(404)
+        |> render(Pers.ErrorView, "404.html")
+        |> halt()
     end
   end
 

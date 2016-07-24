@@ -18,10 +18,17 @@ defmodule Pers.Note do
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, @req_fields)
+    |> validate_required([:title])
+    # |> unique_constraint(:link)
+  end
+
+  # FIXME
   def changeset(note, :publish, params) do
     already_published = !!params["published_at"]
     publish? = !!params["published"]
-
     cond do
       publish? && already_published -> 
         note
@@ -34,17 +41,9 @@ defmodule Pers.Note do
     end
   end 
 
-  def changeset(struct, params \\ %{}) do
-    struct
-    |> cast(params, @req_fields)
-    |> validate_required([:title])
-    |> unique_constraint(:link)
-  end
-
   def count do
     from(n in Note, select: count(n.id))
   end
-
 
   def published do
     from(n in Note,
@@ -67,4 +66,9 @@ defmodule Pers.Note do
      offset: ^offset)
   end
 
+  def notes_sitemap do
+    from(n in published(),
+     order_by: n.title,
+     select: {n.id, n.updated_at})
+  end
 end

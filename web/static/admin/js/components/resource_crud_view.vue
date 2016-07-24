@@ -1,7 +1,6 @@
 <template>
   <div class="crud-view">
     <div class="context">
-
       <div class="top-bar">
         <div class="actions" v-if="any">
           <button class="calm" v-on:click="new"> Add new {{ singular }}</button>
@@ -29,7 +28,7 @@
 </template>
 
 <script>
-import { set_current_resources, add_resource, notify, set_ar_api, set_active, fetch_resources } from "../vuex/actions"
+import * as actions from "../vuex/actions"
 import { wrap_raw_resource, project, page_like } from "../resources"
 import ResourceListView from "./resources_list"
 import Editor from "./editor"
@@ -37,6 +36,7 @@ import Editor from "./editor"
 export default {
   name: "ResourceCrudView",
   vuex: {
+    actions,
     getters: {
       any(state) {
         return state.resources.items
@@ -50,14 +50,6 @@ export default {
       current_resources: (state) => {
         return state.resources.current_resources
       }
-    },
-    actions: {
-      notify,
-      set_ar_api,
-      set_current_resources,
-      set_active,
-      add_resource,
-      fetch_resources
     }
   },
   route: {

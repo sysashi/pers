@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
+  <url>
+    <loc><%= server_url() <> project_path(Pers.Endpoint, :index) %></loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <%= for {link, updated_at} <- @pages do %>
+    <url>
+      <loc><%= server_url() <> page_path(Pers.Endpoint, :show, link) %></loc>
+      <lastmod><%= Ecto.DateTime.to_iso8601(updated_at) %>Z</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+    </url>
+  <% end %>
+
+  <%= for {id, updated_at} <- @notes do %>
+    <url>
+      <loc><%= server_url() <> note_path(Pers.Endpoint, :show, id) %></loc>
+      <lastmod><%= Ecto.DateTime.to_iso8601(updated_at) %>Z</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+    </url>
+  <% end %>
+</urlset>

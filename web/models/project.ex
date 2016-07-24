@@ -31,4 +31,10 @@ defmodule Pers.Project do
      order_by: [desc: p.published_at],
      limit: ^limit)
   end
+
+  def projects_sitemap do
+    from(p in Project,
+     order_by: p.name,
+     select: {p.name, p.updated_at})
+  end
 end
