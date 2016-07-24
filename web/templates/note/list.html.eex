@@ -1,4 +1,4 @@
-<div class="link-list">
+<div class="link-list notes">
   <ul>
     <%= for note <- @notes do %>
       <div class="note-preview">

@@ -1,4 +1,4 @@
-<div class="link-list">
+<div class="link-list projects">
   <ul>
     <% available_link_classes = ~w(github gitlab) %> 
     <%= for project <- @projects do %>
