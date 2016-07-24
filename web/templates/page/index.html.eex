@@ -4,33 +4,12 @@
     on one line with what I love the most - helping people with technology knowledge I have.
     You can read a little bit more about me <a href="/about">here</a>. 
   </div>
-  <div class="mrn link-list">
+  <div class="mrn">
     <h2>Recent notes:</h2>
-    <ul>
-      <%= for note <- @recent_notes do %>
-        <div class="note-preview">
-          <li>
-            <span class="rel-date">
-              <%= rel_from_now(note.published_at) %>
-            </span>
-            <%= link "#{note.title}", 
-            to: note_path(@conn, :show, note) %>
-          </li>
-        </div>
-      <% end %>
-    </ul>
+    <%= render Pers.NoteView, "list.html",  [notes: @recent_notes, conn: @conn] %>
   </div>
-  <div class="mrp link-list">
+  <div class="mrp">
     <h2>Recent projects:</h2>
-    <ul>
-      <%= for project <- @recent_projects do %>
-        <div class="project-preview">
-          <li>
-            <%= project.status %>
-            <%= link "#{project.name}", to: project_path(@conn, :show, project) %>
-          </li>
-        </div>
-      <% end %>
-    </ul>
+    <%= render Pers.ProjectView, "list.html", projects: @recent_projects %>
   </div>
 </div>

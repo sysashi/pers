@@ -1,43 +1,30 @@
 <div class="notes">
-  <div class="link-list">
-    <h2> Notes </h2>
-    <ul>
-      <%= for note <- @notes do %>
-        <div class="note-preview">
-          <li>
-            <span class="rel-date">
-              <%= rel_from_now(note.published_at) %>
-            </span>
-            <%= link "#{note.title}", 
-            to: note_path(@conn, :show, note) %>
-          </li>
-        </div>
-      <% end %>
-    </ul>
-    <div class="notes-pagination">
-      <div class="pagination">
-        <span>
-        <% 
-          max_page = div(@count, @per_page)  
-          next_page_params = [page: @page_number + 1]
-          prev_page_params = [page: @page_number - 1]
-          left_older = @count - (@page_number * @per_page)
-          newer = ((@page_number - 1) * @per_page) 
-        %> 
-        <%= if @page_number <= max_page do %>
-          <%= link("(#{left_older}) older", 
-           to: note_path(@conn, :index, next_page_params), 
-           class: "next") %>
-        <%= end %>
-        <%= unless @page_number == 1 do %>
-          <%= link("newer (#{newer})", 
-           to: note_path(@conn, :index, prev_page_params), 
-           class: "prev") %>
-        <%= end %>
-      </span>
-      </div>
-    </div>
-  </div> <!-- link list -->
+  <h2> Notes </h2>
+  <%= render "list.html", [notes: @notes, conn: @conn] %>
+  <div class="notes-pagination">
+    <div class="pagination">
+      <span>
+      <% 
+        max_page = div(@count, @per_page)  
+        next_page_params = [page: @page_number + 1]
+        prev_page_params = [page: @page_number - 1]
+        left_older = @count - (@page_number * @per_page)
+        newer = ((@page_number - 1) * @per_page) 
+      %> 
 
+      <%= if @page_number <= max_page do %>
+        <%= link("(#{left_older}) older", 
+         to: note_path(@conn, :index, next_page_params), 
+         class: "next") %>
+      <%= end %>
+
+      <%= unless @page_number == 1 do %>
+        <%= link("newer (#{newer})", 
+         to: note_path(@conn, :index, prev_page_params), 
+         class: "prev") %>
+      <%= end %>
+    </span>
+    </div>
+  </div>
 </div>
 

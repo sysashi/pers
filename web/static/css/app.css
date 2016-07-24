@@ -11,8 +11,8 @@
 }
 
 @custom-media --large-screen (width > 1200px);
-@custom-media --small-screen (width < 500px);
 @custom-media --medium-screen (width <= 1200px);
+@custom-media --small-screen (width < 500px);
 
 @custom-selector :--headings h1, h2, h3, h4, h5, h6;
 
@@ -75,13 +75,20 @@ html, body, .container, #main-layout {
 /* Content page - link-list */
 #main-layout
 .content
-.link-list {
-    border-top: 1px dashed #ddd;
-    margin-top: 20px;
-    font-size: 18px;
-    &:first-child, &:only-child {
+#home {
+    & > div {
+        border-bottom: 1px dashed #ddd;
+    }
+    & > div:first-child, & > div:only-child, & > div:last-child {
         border: none;
     }
+}
+
+#main-layout
+.content
+.link-list {
+    margin-top: 20px;
+    font-size: 18px;
     & ul {
         list-style: none;
         & li {
@@ -100,23 +107,6 @@ html, body, .container, #main-layout {
         & li:before {
               content: "-";
               padding-right: 5px;
-        }
-    }
-}
-#main-layout
-.content
-.link-list:only-child {
-    border: none;
-}
-#main-layout
-.content
-.mrl {
-    & > a {
-        text-decoration: none;
-        & > h2 {
-            color: var(--link-color);
-            font-style: italic;
-            display: inline-block;
         }
     }
 }

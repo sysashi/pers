@@ -1,0 +1,15 @@
+<div class="link-list">
+  <ul>
+    <%= for note <- @notes do %>
+      <div class="note-preview">
+        <li>
+          <span class="rel-date">
+            <%= rel_from_now(note.published_at) %>
+          </span>
+          <%= link "#{note.title}", 
+          to: note_path(@conn, :show, note) %>
+        </li>
+      </div>
+    <% end %>
+  </ul>
+</div>
