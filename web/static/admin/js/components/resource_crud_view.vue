@@ -88,7 +88,7 @@ export default {
           array.sort((r1, r2) => {
             let d1 = new Date(r1[by]).getTime()
             let d2 = new Date(r2[by]).getTime()
-            return d2 - d1 
+            return d2 - d1
           })
           return array
         }

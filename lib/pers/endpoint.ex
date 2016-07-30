@@ -40,6 +40,7 @@ defmodule Pers.Endpoint do
     store: :cookie,
     key: "_pers_key",
     signing_salt: "a62q/tnt",
+    encryption_salt: "This is secret salt",
     http_only: true
 
   plug Pers.Router

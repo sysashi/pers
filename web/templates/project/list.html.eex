@@ -2,10 +2,10 @@
   <ul>
     <% available_link_classes = ~w(github gitlab) %> 
     <%= for project <- @projects do %>
-      <div class="project-preview">
         <li>
-          <span class="name"> <%= project.name %> </span>
-          <span class="desc">- (<%= project.desc %>)</span>
+          <div class="project-preview">
+            <span class="name"> <%= project.name %> </span>
+            <span class="desc">- (<%= project.desc %>)</span>
           <%= if project.links do %>
             <div class="links">
               <%= for {_index, link} <- project.links do %>
@@ -15,8 +15,8 @@
                 <% end %>
             </div>
           <% end %>
+        </div>
         </li>
-      </div>
     <% end %>
   </ul>
 </div>
