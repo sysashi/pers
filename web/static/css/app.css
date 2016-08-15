@@ -10,6 +10,16 @@
     --utility-border: 1px solid var(--utility-border-c);
 }
 
+@font-face {
+    font-family: "WorkSans";
+    font-style: normal; 
+    font-weight: 400;
+    src: local("WorkSans"),
+        url("/assets/fonts/worksans/woff2/WorkSans-Regular.woff2") format("woff2"),
+        url("/assets/fonts/worksans/woff/WorkSans-Regular.woff") format("woff"),
+        url("/assets/fonts/worksans/ttf/WorkSans-Regular.ttf") format("ttf");
+}
+
 @custom-media --large-screen (width > 1200px);
 @custom-media --medium-screen (width <= 1200px);
 @custom-media --small-screen (width < 500px);
@@ -17,32 +27,37 @@
 @custom-selector :--headings h1, h2, h3, h4, h5, h6;
 
 :--headings {
+    font-family: Tahoma, Geneva, sans-serif;
     color: color(var(--text-color) blackness(+ 20%));
 }
+
 a {
     color: var(--link-color);
     text-decoration: none;
     border-bottom: 2px dotted #e4cece;
     font-style: italic;
+
     &:hover {
         border-color: #da5d5d;
     }
+
     &.active {
         font-weight: bold;
         border-color: #da5d5d;
     }
 }
+
 html {
-    font-family: 'Vollkorn', serif; 
     color: var(--text-color);
+    /* font-family: Tahoma, Geneva, sans-serif; */
+    /* font-family: Georgia, Times, serif; */
+    font-family: "WorkSans", sans-serif;
 }
 
 body {
     width: 100%;
     margin: 0;
     padding: 0;
-    font-size: 1.2em;
-    /* lost-utility: edit; */
 }
 html, body, .container, #main-layout {
     height: 100%;
@@ -73,10 +88,6 @@ html, body, .container, #main-layout {
 }
 
 /* Content page - link-list */
-@keyframes spin {
-    from {transform:rotate(0deg);}
-    to {transform:rotate(360deg);}
-}
 #main-layout
 .content
 #home {
@@ -100,39 +111,37 @@ html, body, .container, #main-layout {
               margin-bottom: 20px;
               text-indent: -1em;
               & a {
+                  font-size: 1rem;
                   margin-left: 5px;
                   text-decoration: none;
                   line-height: 25px;
+                  border: none;
               }
+
               & span {
-                  font-family: Courier, monospace;
-                  font-size: 80%;
                   &:first-child {
                       margin-left: 5px;
                   }
               }
+
+              & .rel-date {
+                  font-size: 0.8rem;
+              }
         }
         & li:before {
-            content: " ";
-            display: inline-block;
-            height: 0; 
-            width: 0;
-            border-top: 4px solid transparent;
-            border-bottom: 4px solid transparent;
-            border-left: 6px solid #333;
+            content: "●";
+            color: #ddd;
+            display: inline;
         }
         & li:hover:before {
-            border-top: 4px solid transparent;
-            border-bottom: 4px solid transparent;
-            border-left: 6px solid #666;
-            animation: spin 0.5s linear;
             opacity: 0.5;
-
+            color: #888;
         }
     }
 }
 /* Header & main menu */
 header {
+    font-family: Tahoma, Geneva, sans-serif;
     lost-align: center;
     height: var(--header-height);
     background-color: var(--utility-bg-c);
@@ -168,7 +177,7 @@ header {
 .header
 .nav ul > li > a {
     padding: 4px 4px 0px 4px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: rgb(82, 67, 71); 
     text-decoration: none;
     text-transform: lowercase;
@@ -182,8 +191,14 @@ header {
 }
 .projects
 .project-preview {
-        display: inline;
+    display: inline;
+    
+    & .name {
+        font-size: 1rem;
+    }
+
     & .desc {
+        font-size: 0.9rem;
         color: #666;
         margin-top: 5px;
         font-style: italic;
@@ -252,7 +267,6 @@ header {
     & a {
         color: rgb(82, 67, 71);
         text-decoration: none;
-        border: var(--utility-border);
         padding: 5px 10px;
         background: var(--utility-bg-c);
         border-radius: 3px;
@@ -263,6 +277,7 @@ header {
 
 /* footer */
 .footer {
+    font-family: Courier New, Courier New, Courier6, monospace;
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
     width: 100%;
@@ -277,7 +292,8 @@ header {
     width: 100%;
     color: color(var(--text-color) lightness(+ 20%));  
     line-height: 20px;
-    font-size: 1rem;
+
+    font-size: 0.8rem;
 
     @media (--large-screen) {
         & div {

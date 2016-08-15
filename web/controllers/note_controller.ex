@@ -2,7 +2,7 @@ defmodule Pers.NoteController do
   use Pers.Web, :controller
   alias Pers.Note
 
-  @per_page 5 
+  @per_page 5
 
   def index(conn, params) do
     count = Pers.Repo.one!(Note.count_published)

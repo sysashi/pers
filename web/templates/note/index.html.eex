@@ -5,21 +5,21 @@
     <div class="pagination">
       <span>
       <% 
-        max_page = div(@count, @per_page)  
+        max_page = Float.ceil(@count / @per_page) |> trunc 
         next_page_params = [page: @page_number + 1]
         prev_page_params = [page: @page_number - 1]
         left_older = @count - (@page_number * @per_page)
         newer = ((@page_number - 1) * @per_page) 
       %> 
 
-      <%= if @page_number <= max_page do %>
-        <%= link("(#{left_older}) older", 
+      <%= if @page_number < max_page do %>
+        <%= link("← older", 
          to: note_path(@conn, :index, next_page_params), 
          class: "next") %>
       <%= end %>
 
       <%= unless @page_number == 1 do %>
-        <%= link("newer (#{newer})", 
+        <%= link("newer →", 
          to: note_path(@conn, :index, prev_page_params), 
          class: "prev") %>
       <%= end %>

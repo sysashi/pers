@@ -23,9 +23,9 @@ exports.config = {
         "css/app.css": /^(web\/static\/css)|(dist\/css)/,
         "admin/css/app.css": /^(web\/static\/admin\/css)|(dist\/css)/
       },
-       order: {
-         before: ["web/static/css/app.css"] // concat app.css last
-       }
+      order: {
+        before: ["web/static/css/app.css"] // concat app.css last
+      }
     },
     templates: {
       joinTo: "js/app.js"
@@ -86,4 +86,4 @@ exports.config = {
   npm: {
     enabled: true
   }
-};
+}

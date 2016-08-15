@@ -78,12 +78,12 @@ export const save_ar = ({dispatch, state}, opts) => {
       notify({dispatch}, crud_notification(
         "success",
         `${rs.api.name} was saved successfully.`,
-        1000, 
+        1000,
         resp
       ))
 
       let oldKey = rs.active_resource.id
-      
+
       // replace temp route with real id from the server
       if (opts && opts.router) {
         opts.router.replace(data.id.toString())
@@ -106,7 +106,7 @@ export const save_ar = ({dispatch, state}, opts) => {
     })
 }
 export const update_ar = ({dispatch, state}) => {
-  let rs = state.resources 
+  let rs = state.resources
   rs.api.update({id: rs.active_resource.id}, {[rs.api.name]: rs.active_resource})
     .then((resp) => {
       let r = resp.json().data
@@ -115,7 +115,7 @@ export const update_ar = ({dispatch, state}) => {
       notify({dispatch}, crud_notification(
         "success",
         `${rs.api.name} was updated successfully.`,
-        1500, 
+        1500,
         resp
       ))
 
@@ -124,6 +124,7 @@ export const update_ar = ({dispatch, state}) => {
       dispatch(ACTIVE_RESOURCE, data)
     })
 }
+
 export const delete_ar = ({dispatch, state}) => {
   let r = state.resources
   r.api.delete({id: r.active_resource.id})

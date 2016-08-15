@@ -32,14 +32,12 @@ defmodule Pers.Router do
 
     scope "/dashboard/", Pers.Admin do
       pipe_through [:browser, :ensure_admin]
-
-     get "/", Dashboard, :index
+      get "/", Dashboard, :index
     end
 
     scope "/api", as: "admin", alias: Pers.Admin do
       pipe_through [:api, :ensure_admin]
 
-      resources "/logs", LogController
       resources "/notes", NoteController
       resources "/pages", PageController
       resources "/projects", ProjectController

@@ -10,9 +10,10 @@ Vue.use(VueResource)
 Vue.http.options.root = "/admin/api"
 
 const environment = process.env.NODE_ENV;
+const dev = "development"
 
-Vue.config.debug = (environment === "development")
-Vue.config.devtools = (environment === "development")
+Vue.config.debug = (environment === dev)
+Vue.config.devtools = (environment === dev)
 
 let router = new VueRouter({})
 router.map(routes)

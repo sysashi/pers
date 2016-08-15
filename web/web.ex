@@ -30,6 +30,12 @@ defmodule Pers.Web do
     quote do
       use Phoenix.Controller
 
+      alias Pers.{
+        Repo,
+        Project,
+        Note
+       }
+
       alias Pers.Repo
       import Ecto
       import Ecto.Query

@@ -108,9 +108,7 @@
     overflow-y: scroll;
     padding: 20px;
 }
-.wrapper
-.content
-.resource-editor {
+.wrapper .content .resource-editor {
     flex: 2;
     overflow-y: scroll;
     padding: 20px;

@@ -2,8 +2,8 @@ export const wrap_raw_resource = (r, proto, is_new) => {
   let o = Object.assign({}, proto)
   o = Object.assign(o, r)
 
-  if (r.published_at) { 
-    o.published = true 
+  if (r.published_at) {
+    o.published = true
     o.published_at = new Date(r.published_at)
     .toDateString()
   }
@@ -21,6 +21,7 @@ export const page_like = {
   published: null,
   editor: "ResourceMarkdownEditor"
 }
+
 export const project = {
   links: {},
   name: "",
@@ -43,20 +44,20 @@ function build_menu() {
 
   keys.forEach((key) => {
     let km = build_resource_menu(key, menu_entries[key])
-    menu[key] = { name: key, actions: km } 
+    menu[key] = { name: key, actions: km }
   })
 
   return menu
 }
 
 function build_resource_menu(resource, actions) {
-  let rm = [] 
+  let rm = []
   actions.forEach((action) => {
-    let new_entry = { 
+    let new_entry = {
       name: action,
       link: `/${action}/${resource}`
     }
-    rm.push(new_entry) 
+    rm.push(new_entry)
   })
   return rm
 }
