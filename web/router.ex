@@ -30,7 +30,7 @@ defmodule Pers.Router do
       get "/logout", Dashboard, :logout
     end
 
-    scope "/dashboard/", Pers.Admin do
+    scope "/dashboard", Pers.Admin do
       pipe_through [:browser, :ensure_admin]
       get "/", Dashboard, :index
     end
@@ -49,10 +49,14 @@ defmodule Pers.Router do
 
     resources "/notes", NoteController, only: [:index, :show] 
     resources "/projects", ProjectController, only: [:index, :show] 
+
+    get "/upload", UploadController, :index
+    post "/upload", UploadController, :upload
     
     get "/sitemap.xml", SitemapController, :sitemap
     get "/", PageController, :index
     get "/:page", PageController, :show
+
   end
 
   defp ensure_admin(conn, _params) do

@@ -1,3 +1,5 @@
+@lost flexbox flex;
+
 :root {
     --main-menu-item: #685782;
     --content-width: 1000px;
@@ -37,6 +39,8 @@ a {
     border-bottom: 2px dotted #e4cece;
     font-style: italic;
 
+    white-space: nowrap;
+
     &:hover {
         border-color: #da5d5d;
     }
@@ -54,52 +58,42 @@ html {
     font-family: "WorkSans", sans-serif;
 }
 
-body {
-    width: 100%;
-    margin: 0;
-    padding: 0;
+/* common */
+.rect {
+    border-radius: 3px;
 }
-html, body, .container, #main-layout {
-    height: 100%;
-}
+
 .container {
-    position: relative;
-    lost-utility: clearfix;
     lost-center: 690px;
+
     @media (--small-screen) {
         lost-column: 1;
     }
 
-}
-#main-layout {
-    & .sticky-wrapper {
-        min-height: 100%;
-    }
-}
-#main-layout
-.content {
-    padding: 0 20px;
-    padding-bottom: var(--footer-height);
-    min-height: 100%;
-
     & > div:only-child { 
         margin: 20px 0;
+        width: 100%;
+    }
+
+    & > div:first-child > *:first-child {
+        margin-top: 0;
+    }
+
+    & > div:first-child > div:first-child > *:first-child {
+        margin-top: 0;
     }
 }
 
-/* Content page - link-list */
-#main-layout
-.content
+
 #home {
     & > div {
         border-bottom: 1px dashed #ddd;
     }
-    & > div:first-child, & > div:only-child, & > div:last-child {
+    & > div:only-child, & > div:last-child {
         border: none;
     }
 }
-#main-layout
-.content
+
 .link-list {
     margin-top: 20px;
     font-size: 18px;
@@ -148,6 +142,8 @@ header {
     border-bottom: var(--utility-border);
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
+
+    lost-center: 690px;
 }
 .header
 .nav {
@@ -187,6 +183,71 @@ header {
 /* /Header & main menu */
 
 /* Projects */
+.projects-grid {
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+    & .project-card {
+        lost-waffle: 1/3;
+    }
+}
+
+
+.projects-grid 
+.project-card 
+.project-info {
+    background: var(--utility-bg-c);
+    border: var(--utility-border);
+    padding: 10px;
+    color: #444;
+
+    & .name {
+        text-align: center;
+        font-size: 1.1em;
+        color: #31334E;
+        font-weight: bold;
+    }
+
+    & .desc {
+        color: #3D3D5D;
+    }
+
+    & .links {
+        overflow: hidden;
+        border-top: 2px dashed #ddd;
+    }
+
+    & .links a {
+        display: inline-block;
+        color: #333;  
+        border: none;
+        border-radius: 2px;
+        background: #ddd;
+        padding: 2px 4px;
+        margin-top: 5px;
+
+        &:hover, &:focus {
+            transition-duration: 0.3s;
+            background: #333;
+            color: #ddd;
+        }
+    }
+
+    & > div {
+        margin-bottom: 5px;
+    }
+}
+
+.projects-grid 
+.project-card
+.project-info:hover {
+    background: color(var(--utility-bg-c) saturation(10%));
+    & .links {
+        border-color: #bbb;
+    }
+}
+
 .projects {
 }
 .projects
@@ -237,10 +298,13 @@ header {
     & .left {
         float: left;
     }
-    & .time {
-    }
-
     lost-utility: clearfix;
+}
+.note
+.note-title {
+    text-align: center;
+    font-size: 3rem;
+    margin: 10px 0;
 }
 .note
 .note-content {
@@ -277,42 +341,15 @@ header {
 
 /* footer */
 .footer {
-    font-family: Courier New, Courier New, Courier6, monospace;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    width: 100%;
-    height: calc(var(--footer-height) - 1);
-    margin-top: -var(--footer-height);
-    background-color: var(--utility-bg-c);
+    font-size: 0.9rem;
+    lost-center: 690px;
+    lost-flex-container: row;
     border-top: var(--utility-border);
-}
-.footer
-.inside-wrapper {
-    lost-utility: clearfix;
-    width: 100%;
-    color: color(var(--text-color) lightness(+ 20%));  
-    line-height: 20px;
-
-    font-size: 0.8rem;
-
-    @media (--large-screen) {
-        & div {
-            lost-column: 1/3;
-            &:last-child {
-                lost-move: 1/3;
-            }
-        }
-    }
-
-    @media (--medium-screen) {
-        & div {
-            lost-column: 1/2;
-        }
-    }
-
+    background: var(--utility-bg-c);
     & div {
-        margin-top: 10px;
+        flex: 1;
         text-align: center;
+        padding: 10px 10px;
     }
 }
 /* /footer */

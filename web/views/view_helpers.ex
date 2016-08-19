@@ -10,10 +10,8 @@ defmodule Pers.ViewHelpers do
   end
 
   def simple_time(nil), do: nil
-  def simple_time(%Ecto.DateTime{} = time) do
-    time
-    |> Ecto.DateTime.to_date
-    |> Ecto.Date.to_iso8601
+  def simple_time(%Ecto.DateTime{year: year, month: month, day: day}) do
+    "#{month_name(month)} #{day}, #{year}"
   end
 
   def rel_from_now(nil), do: nil
@@ -21,6 +19,37 @@ defmodule Pers.ViewHelpers do
     now = Ecto.DateTime.utc
     diff = timediff(time, now)
     _rel(diff)
+  end
+
+  
+  defp timediff(time1, time2) do
+    [sec1 | [sec2 | _ ]] = Enum.map [time1, time2], fn t ->
+      Ecto.DateTime.to_erl(t)
+      |> :calendar.datetime_to_gregorian_seconds()
+    end
+
+    Kernel.abs(sec2 - sec1)
+    |> :calendar.gregorian_seconds_to_datetime()
+  end
+
+  defp _simple_time({y, m, d}) do
+  end
+
+  defp month_name(n) when is_integer(n) do
+    case n do
+      1 -> "January"
+      2 -> "February"
+      3 -> "March"
+      4 -> "April"
+      5 -> "May"
+      6 -> "June"
+      7 -> "July"
+      8 -> "August"
+      9 -> "September"
+      10 -> "October"
+      11 -> "November"
+      12 -> "December"
+    end
   end
 
   defp _rel({{0, 1, 1}, {0, 0, sec}}) do
@@ -52,15 +81,5 @@ defmodule Pers.ViewHelpers do
   end
   defp _rel({{year, _month, _day}, {_hour, _min, _sec}}) do
     "#{year} years ago"
-  end
-  
-  defp timediff(time1, time2) do
-    [sec1 | [sec2 | _ ]] = Enum.map [time1, time2], fn t ->
-      Ecto.DateTime.to_erl(t)
-      |> :calendar.datetime_to_gregorian_seconds()
-    end
-
-    Kernel.abs(sec2 - sec1)
-    |> :calendar.gregorian_seconds_to_datetime()
   end
 end

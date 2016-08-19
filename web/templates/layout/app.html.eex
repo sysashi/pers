@@ -18,19 +18,13 @@
   </head>
 
   <body>
+
+    <%= render "header.html", assigns %>
     <div class="container">
-      <main role="main" id="main-layout">
-
-        <div class="sticky-wrapper">
-          <%= render "header.html", assigns %>
-          <div class="content" role="content">
-            <%= render @view_module, @view_template, assigns %>
-          </div>
-        </div>
-
-        <%= render "footer.html", assigns %>
-      </main>
+            <%= render @view_module,
+            @view_template, assigns %>
     </div> <!-- /container -->
+    <%= render "footer.html", assigns %>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

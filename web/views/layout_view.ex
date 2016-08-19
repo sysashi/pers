@@ -3,9 +3,8 @@ defmodule Pers.LayoutView do
 
   def menu do
      ["home": "/",
-      "notes": "/notes",
-      "projects": "/projects",
-      "about me / contacts": "/about",
+      "about me": "/about",
+      "notes archive": "/notes",
       "media": "/media"]
   end
 

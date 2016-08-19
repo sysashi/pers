@@ -1,15 +1,10 @@
 <div id="home">
-  <div class="short-info">
-    I'm Boris Gnezdilov, I like tech and new shiny things but always trying to stay
-    on one line with what I love the most - helping people with technology knowledge I have.
-    You can read a little bit more about me <a href="/about">here</a>. 
-  </div>
   <div class="mrn">
     <h2>Recent notes:</h2>
     <%= render Pers.NoteView, "list.html", [notes: @recent_notes, conn: @conn] %>
   </div>
-  <div class="mrp">
-    <h2>Recent projects:</h2>
-    <%= render Pers.ProjectView, "list.html", projects: @recent_projects %>
+  <div class="rect mrp">
+    <h2>Projects:</h2>
+    <%= render Pers.ProjectView, "grid.html", projects: @recent_projects %>
   </div>
 </div>
