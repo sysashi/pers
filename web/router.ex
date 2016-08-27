@@ -14,66 +14,39 @@ defmodule Pers.Router do
     plug :fetch_session
   end
 
-  pipeline :admin do
-    plug :admin_layout
-  end
-
-
   scope "/admin" do
-    pipe_through :admin
-
     scope "/", Pers.Admin do
-      pipe_through :browser
+      pipe_through [:browser, Pers.Common.AdminLayout]
 
-      get "/", Dashboard, :login_form
-      post "/login", Dashboard, :login
-      get "/logout", Dashboard, :logout
-    end
+      get "/", SessionController, :login_page
+      post "/login", SessionController, :create
+      get "/logout", SessionController, :delete
 
-    scope "/dashboard", Pers.Admin do
-      pipe_through [:browser, :ensure_admin]
-      get "/", Dashboard, :index
+      scope "/dashboard" do
+        get "/", DashboardController, :index
+      end
     end
 
     scope "/api", as: "admin", alias: Pers.Admin do
-      pipe_through [:api, :ensure_admin]
+      pipe_through [:api, Pers.AdminAuth.EnsureAdmin]
 
       resources "/notes", NoteController
       resources "/pages", PageController
       resources "/projects", ProjectController
+
     end
   end
 
-  scope "/", alias: Pers do
+  scope "/", Pers do
     pipe_through :browser
 
     resources "/notes", NoteController, only: [:index, :show] 
     resources "/projects", ProjectController, only: [:index, :show] 
-
-    get "/upload", UploadController, :index
-    post "/upload", UploadController, :upload
+    resources "/files", FileController, only: [:index, :show]
+    post "/file_upload", FileUploadController, :upload
     
     get "/sitemap.xml", SitemapController, :sitemap
     get "/", PageController, :index
     get "/:page", PageController, :show
-
-  end
-
-  defp ensure_admin(conn, _params) do
-    case get_session(conn, :login) do
-      %Pers.Admin{} ->
-        conn
-        _ -> 
-        conn
-        |> put_layout(false)
-        |> put_status(404)
-        |> render(Pers.ErrorView, "404.html")
-        |> halt()
-    end
-  end
-
-  @admin_layout "admin_layout.html"
-  defp admin_layout(conn, _params) do
-    put_layout(conn, {Pers.AdminView, @admin_layout})
   end
 end

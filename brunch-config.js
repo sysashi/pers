@@ -61,14 +61,14 @@ exports.config = {
     vue: {
       autoprefixer: false,
       postcss: [
-        require("postcss-import"),
+        require("postcss-partial-import"),
         require("postcss-cssnext"),
         require("lost")
       ]
     },
     postcss: {
       processors: [
-        require("postcss-import"),
+        require("postcss-partial-import"),
         require("postcss-cssnext"),
         require("lost"),
         require("postcss-normalize"),

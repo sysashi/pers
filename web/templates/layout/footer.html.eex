@@ -1,8 +1,16 @@
 <footer class="footer">
   <div>
-    <span><%= link("about this site", to: "/about-site",
-     class: active?(@conn, "about-site")) %></span>
+    <a href="#"> send direct message</a>
+    <%= link("about this site", to: "/about-site",
+     class: active?(@conn, "about-site")) %>
   </div>
-  <div><a href="#"> send direct message</a></div>
-  <div><span>copypaste (c) 2016</span></div>
+  <div class="contact-icons">
+    <a href="https://twitter.com/sysashi"><i class="icon-twitter"></i></a>
+    <a href="https://github.com/sysashi"><i class="icon-github"></i></a>
+    <a href="mailto:sysashi@protonmail.com"><i class="icon-mail"></i></a>
+  </div>
+  <div class="license-info">
+    <span>© 2016</span>
+    <span>Unless explicitly stated otherwise content is under a <a style="border: none;"rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> license</span>
+    </div>
 </footer>

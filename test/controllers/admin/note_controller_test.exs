@@ -4,20 +4,22 @@ defmodule Pers.Admin.NoteControllerTest do
   alias Pers.Note
 
 
-  @valid_attrs %{html: "", link: "some content", markdown: "some content", title: "some content"}
+  @valid_attrs %{link: "test-link", markdown: "## some content", title: " Test title"}
+
   @invalid_attrs %{}
 
   setup_all  do
     :ok
   end
+
   setup %{conn: conn} do
     admin = %Pers.Admin{} 
     |> Pers.Admin.changeset(%{name: "testme", password: "testme"})
-    |> Pers.Admin.Dashboard.create_admin()
+    |> Pers.Admin.create()
 
     Repo.insert(admin)
 
-    auth = post(conn, dashboard_path(conn, :login), admin: [name: "testme", password: "testme"])
+    auth = post(conn, session_path(conn, :create), admin: [name: "testme", password: "testme"])
     conn = recycle_cookies(conn, auth)
     |> put_req_header("accept", "application/json")
 

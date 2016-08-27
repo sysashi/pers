@@ -10,8 +10,9 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 #
+
 defmodule Pers.Seed do
-  alias Pers.{Repo, Note, Project, Log}
+  alias Pers.{Repo, Note, Project, Tag}
   
   @data %{
     titles:  ["My awesome title! And is quite \
@@ -20,6 +21,15 @@ defmodule Pers.Seed do
     logs: ["I dunno yet what logs gonna be fun"],
     p_names: ["my project 1", "another cool(maybe) project"]
   }
+
+  def add_random_tag(n \\ 5) do
+    for n <- 1..n do
+      note = %Tag{
+        content: "tag #{n}" 
+      }
+      Repo.insert!(note)
+    end
+  end
 
   def add_random_notes(n \\ 10) do
     for _ <- 1..n do
@@ -38,16 +48,6 @@ defmodule Pers.Seed do
         name: random(@data.p_names),
         desc: random(@data.texts),
         published_at: random_date()
-      }
-      Repo.insert!(note)
-    end
-
-  end
-
-  def add_random_logs(n \\ 20) do
-    for _ <- 1..n do
-      note = %Log{
-        body: random(@data.logs),
       }
       Repo.insert!(note)
     end
@@ -80,6 +80,6 @@ defmodule Pers.Seed do
 end
 
 
-Pers.Seed.add_random_logs(28)
 Pers.Seed.add_random_projects(7)
+Pers.Seed.add_random_tag(3)
 Pers.Seed.add_random_notes(17)

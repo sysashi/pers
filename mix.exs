@@ -26,7 +26,8 @@ defmodule Pers.Mixfile do
                     :gettext,
                     :phoenix_ecto, 
                     :postgrex,
-                    :comeonin]]
+                    :comeonin,
+                    :arc_ecto]]
   end
 
   # Specifies which paths to compile per environment.
@@ -46,6 +47,9 @@ defmodule Pers.Mixfile do
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 2.5"},
+     {:earmark, "~> 1.0"},
+     {:arc, "~> 0.5.2"},
+     {:arc_ecto, "~> 0.4.3"},
      {:poison, "~> 2.0"}]
   end
 

@@ -29,6 +29,7 @@
     "postcss-cssnext": "^2.6.0",
     "postcss-import": "^8.1.2",
     "postcss-normalize": "^0.3.0",
+    "postcss-partial-import": "^2.0.0",
     "uglify-js-brunch": "~2.0.1",
     "vue-brunch": "^1.1.2",
     "webcolors": "^1.2.2"

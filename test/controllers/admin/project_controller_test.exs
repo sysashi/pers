@@ -13,11 +13,11 @@ defmodule Pers.Admin.ProjectControllerTest do
   setup %{conn: conn} do
     admin = %Pers.Admin{} 
     |> Pers.Admin.changeset(%{name: "testme", password: "testme"})
-    |> Pers.Admin.Dashboard.create_admin()
+    |> Pers.Admin.create()
 
     Repo.insert(admin)
 
-    auth = post(conn, dashboard_path(conn, :login), admin: [name: "testme", password: "testme"])
+    auth = post(conn, session_path(conn, :create), admin: [name: "testme", password: "testme"])
     conn = recycle_cookies(conn, auth)
     |> put_req_header("accept", "application/json")
 

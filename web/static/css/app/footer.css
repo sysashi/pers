@@ -1,0 +1,45 @@
+.footer {
+    font-size: 0.9rem;
+    border-top: var(--utility-border);
+    background: var(--utility-bg-c);
+    min-height: var(--footer-height);
+
+    & div {
+        lost-flex-container: column;
+        justify-content: center;
+        flex: 1;
+        text-align: center;
+        padding: 10px 10px;
+
+        & > a {
+            align-self: center;
+            margin-bottom: 5px;
+        }
+        
+        & > span {
+            margin-bottom: 5px;
+        }
+    }
+}
+
+.footer
+.license-info {
+    font-size: 80%;
+}
+
+.footer
+.contact-icons {
+    flex-direction: row;
+    & :any-link {
+        color: #333;
+        border: none;
+        margin: 5px;
+    }
+    & :--icons {
+        font-size: 20px;
+        color: #666;
+        &:hover {
+            color: color(var(--main-menu-item) blackness(20%));
+        }
+    }
+}

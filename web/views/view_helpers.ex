@@ -21,21 +21,7 @@ defmodule Pers.ViewHelpers do
     _rel(diff)
   end
 
-  
-  defp timediff(time1, time2) do
-    [sec1 | [sec2 | _ ]] = Enum.map [time1, time2], fn t ->
-      Ecto.DateTime.to_erl(t)
-      |> :calendar.datetime_to_gregorian_seconds()
-    end
-
-    Kernel.abs(sec2 - sec1)
-    |> :calendar.gregorian_seconds_to_datetime()
-  end
-
-  defp _simple_time({y, m, d}) do
-  end
-
-  defp month_name(n) when is_integer(n) do
+  def month_name(n) when is_integer(n) do
     case n do
       1 -> "January"
       2 -> "February"
@@ -51,6 +37,20 @@ defmodule Pers.ViewHelpers do
       12 -> "December"
     end
   end
+  
+  defp timediff(time1, time2) do
+    [sec1 | [sec2 | _ ]] = Enum.map [time1, time2], fn t ->
+      Ecto.DateTime.to_erl(t)
+      |> :calendar.datetime_to_gregorian_seconds()
+    end
+
+    Kernel.abs(sec2 - sec1)
+    |> :calendar.gregorian_seconds_to_datetime()
+  end
+
+  defp _simple_time({y, m, d}) do
+  end
+
 
   defp _rel({{0, 1, 1}, {0, 0, sec}}) do
     "Less then a minute ago"

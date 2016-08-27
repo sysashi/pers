@@ -1,4 +1,0 @@
-<%= form_for @conn, upload_path(@conn, :upload), [as: :upload, multipart: true], fn f -> %>
-    <%= file_input f, :upload, multiple: true %>
-    <%= submit "Submit" %>
-<% end %>

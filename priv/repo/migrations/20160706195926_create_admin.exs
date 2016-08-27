@@ -4,6 +4,8 @@ defmodule Pers.Repo.Migrations.CreateAdmin do
   def change do
     create table(:admins) do
       add :name, :string
+      add :nick, :string
+      add :email, :string
       add :pwhash, :string
 
       timestamps

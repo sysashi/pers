@@ -23,6 +23,8 @@ defmodule Pers.Web do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
+
+      Pers.Web.common
     end
   end
 
@@ -30,18 +32,14 @@ defmodule Pers.Web do
     quote do
       use Phoenix.Controller
 
-      alias Pers.{
-        Repo,
-        Project,
-        Note
-       }
-
       alias Pers.Repo
       import Ecto
       import Ecto.Query
 
       import Pers.Router.Helpers
       import Pers.Gettext
+
+      Pers.Web.common
     end
   end
 
@@ -76,6 +74,17 @@ defmodule Pers.Web do
       import Ecto
       import Ecto.Query
       import Pers.Gettext
+    end
+  end
+
+  defmacro common do
+    quote do
+      alias Pers.{
+        Repo,
+        Project,
+        Note,
+        Tag
+       }
     end
   end
 

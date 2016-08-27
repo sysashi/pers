@@ -1,0 +1,12 @@
+/* error page */
+.flex-wrapper {
+    display: flex;
+    height: 100vh;
+}
+.error-wrapper {
+    flex: 1;
+    align-self: center;
+    margin: auto;
+    text-align: center;
+    font-size: 2em;
+}

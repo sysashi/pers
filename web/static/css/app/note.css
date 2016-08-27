@@ -1,0 +1,40 @@
+.notes {
+}
+.notes 
+.note-preview {
+}
+.notes
+.notes-pagination {
+    margin-top: 20px;
+    width: 100%;
+    height: auto;
+}
+/* single note */
+.note {
+}
+.note
+.note-meta {
+    & > span {
+        margin-left: 10px;
+        font-style: italic;
+    }
+    & .right {
+        float: right;
+    }
+    & .left {
+        float: left;
+    }
+    lost-utility: clearfix;
+}
+.note
+.note-title {
+    text-align: center;
+    font-size: 3rem;
+    margin: 10px 0;
+}
+.note
+.note-content {
+    & :--headings:first-child {
+        margin-top: 0px;
+    }
+}

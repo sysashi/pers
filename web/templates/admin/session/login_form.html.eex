@@ -6,8 +6,7 @@
       <p><%= @error.message %></p>
     <% end %>
     </div>
-    <%= form_for @changeset, 
-        dashboard_path(@conn, :login), 
+    <%= form_for @changeset, session_path(@conn, :create), 
         fn f -> %> 
 
       <%= label f, :name %>

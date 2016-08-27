@@ -1,20 +1,20 @@
 defmodule Pers.Note do
   use Pers.Web, :model
-  alias Pers.Note
 
   schema "notes" do
     field :title, :string
     field :link, :string
     field :html, :string
     field :markdown, :string
-
     field :published, :boolean, virtual: true
     field :published_at, Ecto.DateTime
+
+    many_to_many :tags, Tag, join_through: "notes_tags"
 
     timestamps
   end
 
-  @req_fields [:published, :title, :link, :html, :markdown]
+  @req_fields [:published, :title, :link, :markdown]
   @doc """
   Builds a changeset based on the `struct` and `params`.
   """
@@ -22,11 +22,22 @@ defmodule Pers.Note do
     struct
     |> cast(params, @req_fields)
     |> validate_required([:title])
-    # |> unique_constraint(:link)
+  end
+
+  def create_changeset(struct, params) do
+    struct
+    |> publish(params)
+    |> handle_markdown()
+  end
+
+  def update_changeset(note, params) do
+    note
+    |> publish(params)
+    |> handle_markdown()
   end
 
   # FIXME
-  def changeset(note, :publish, params) do
+  def publish(note, params) do
     already_published = !!params["published_at"]
     publish? = !!params["published"]
     cond do
@@ -41,23 +52,34 @@ defmodule Pers.Note do
     end
   end 
 
+
+  def handle_markdown(changeset) do
+    html = 
+      changeset
+      |> get_field(:markdown) 
+      |> md_to_html()
+
+    put_change(changeset, :html, html)
+  end
+
+  def md_to_html(nil), do: nil
+  def md_to_html(md) when is_binary(md) do
+    md
+    |> Earmark.to_html(%Earmark.Options{gfm: true})
+  end
+
   def count do
     from(n in Note, select: count(n.id))
   end
 
   def published do
     from(n in Note,
-     where: not is_nil(n.published_at))
+     where: not is_nil(n.published_at),
+     order_by: [desc: n.published_at])
   end
 
-  def count_published do
-    from(n in published(),
-     select: count(n.id))
-  end
-
-  def recent(limit) do
+  def recent(limit \\ 10) do
     from(n in published(), 
-     order_by: [desc: n.published_at],
      limit: ^limit)
   end
 
