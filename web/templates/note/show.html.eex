@@ -1,11 +1,13 @@
 <div class="note">
-  <div class="note-meta">
-    <%= link "Back", to: referer(@conn), class: "left" %>
-    <span class="time right"><%= simple_time(@note.published_at) %></span>
-  </div>
 
   <div class="note-title">
-    <span> <%= @note.title %> </span>
+    <div class="note-meta">
+      <%= link to: referer(@conn), class: "left back" do %>
+        <i class="icon-left"></i> Back
+      <% end %>
+      <span class="time right"><%= simple_time(@note.published_at) %></span>
+      <span class="title"> <%= @note.title %> </span>
+    </div>
   </div>
 
   <div class="note-content">

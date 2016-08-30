@@ -40,11 +40,11 @@ defmodule Pers.Router do
   scope "/", Pers do
     pipe_through :browser
 
-    resources "/notes", NoteController, only: [:index, :show] 
-    resources "/projects", ProjectController, only: [:index, :show] 
+    resources "/notes", NoteController, only: [:index, :show]
+    resources "/projects", ProjectController, only: [:index, :show]
     resources "/files", FileController, only: [:index, :show]
     post "/file_upload", FileUploadController, :upload
-    
+
     get "/sitemap.xml", SitemapController, :sitemap
     get "/", PageController, :index
     get "/:page", PageController, :show

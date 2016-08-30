@@ -1,13 +1,12 @@
 p {margin-bottom: 1.3em;}
 
 h1, h2, h3, h4 {
-  margin: 1.414em 0 0.5em;
+  margin: 1em 0 0.5em;
   font-weight: inherit;
   line-height: 1.2;
 }
 
 h1 {
-  margin-top: 0;
   font-size: 3.157em;
 }
 
@@ -25,8 +24,6 @@ a {
     border-bottom: 1px solid  #e4cece;
     font-style: italic;
 
-    white-space: nowrap;
-
     &:hover {
         border-color: #da5d5d;
     }
@@ -38,6 +35,13 @@ a {
     &.active {
         font-weight: bold;
         border-color: #da5d5d;
+    }
+
+    &.back {
+        border: none;
+        &:hover {
+            color: color(var(--link-color) shade(50%));
+        }
     }
 }
 .section-title {
@@ -71,38 +75,26 @@ a {
     margin: 0 auto;
 }
 
-.link-list {
-        list-style: none;
-        padding-left: 20px;
-        & li {
-              display: block;
-              margin-bottom: 20px;
-              text-indent: -1em;
-              & a {
-                  font-size: 1rem;
-                  margin-left: 5px;
-                  text-decoration: none;
-                  line-height: 25px;
-                  border: none;
-              }
-
-              & span {
-                  &:first-child {
-                      margin-left: 5px;
-                  }
-              }
-
-              & .rel-date {
-                  font-size: 0.8rem;
-              }
-        }
-        & li:before {
-            content: "●";
-            color: #ddd;
-            display: inline;
-        }
-        & li:hover:before {
-            opacity: 0.5;
-            color: #888;
-        }
+.tooltip {
+  color: #900;
+  text-decoration: none;
+}
+.tooltip:hover {
+  color: red;
+  position: relative;
+  cursor: pointer;
+}
+/* Tooltip on Top */
+.tooltip-top[data-tooltip]:hover:after {
+  content: attr(data-tooltip);
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  padding: 4px 8px;
+  position: absolute;
+  left: 0;
+  bottom: 100%;
+  white-space: nowrap;
+  z-index: 20px;
+  background-color: #ddd;
+  color: #333;
 }

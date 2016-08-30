@@ -1,19 +1,25 @@
-<div class="notes">
-  <%= for {year, yearly_notes} <- group_by(@notes, date: [:by_year, :by_month]) do %>
-    <div class="section-title big"><%= year %></div>
-    <%= for {month, monthly_notes} <- yearly_notes do %>
-      <div class="archive-month">
-        <div class="section-title small"><%= month %></div>
-          <%= for note <- monthly_notes do %>
-          <ul class="link-list">
-            <li>
-              <%= link "#{note.title}", 
-              to: note_path(@conn, :show, note) %>
-            </li>
-          </ul>
-          <% end %>
-      </div>
-    <% end %>
-  <% end %>
-</div>
+<div class="grouped_notes">
+<%
+wrap_fun = fn
+  list when is_list(list) ->
+      Enum.map(list, fn note ->
+         content_tag(:li, class: "note-link") do
+            link(note.title, to: note_path(@conn, :show, note))
+         end
+      end)
+  {key, nest_level} ->
+    checkbox = tag(:input, type: :checkbox, id: "#{key}", class: "group-key-index")
+    label = content_tag(:label, class: "group-key level-#{nest_level}", for: "#{key}") do
+      "#{key}"
+    end
+    [checkbox | [label]]
+end
 
+wrapped_notes =
+  group_by(@notes, date: [:by_year, :by_month])
+  |> wrap_notes(wrap_fun)
+
+%>
+
+<%= wrapped_notes %>
+</div>

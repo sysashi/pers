@@ -3,8 +3,12 @@ defmodule Pers.PageController do
 
   def index(conn, _params) do
     data = [
-      recent_notes: Repo.all(Note.recent(5)), 
-      recent_projects: Repo.all(Project.recent(5)),
+      recent_notes: Note.recent(3)
+      |> Repo.all()
+      |> Repo.preload(:tags),
+
+      recent_projects: Project.recent(5)
+      |> Repo.all()
     ]
     render conn, "index.html", data
   end

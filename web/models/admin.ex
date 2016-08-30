@@ -5,8 +5,8 @@ defmodule Pers.Admin do
   schema "admins" do
     field :name, :string
     # TODO
-    # field :login_name, :string
-    # field :nick_name, :string 
+    # field :name, :string
+    # field :nickname, :string
     # field :email, :string
     field :pwhash, :string
     field :password, :string, virtual: true

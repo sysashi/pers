@@ -11,10 +11,14 @@
     --utility-border-c: #f3cccc;
     --utility-border: 1px solid var(--utility-border-c);
 
+    --color-green: rgb(95, 176, 151);
+
     --centered-layout: {
         margin: 0 auto;
         width: var(--layout-width;)
     }
+
+    --monospace: Courier, 'Courier New', monospace;
 }
 
 

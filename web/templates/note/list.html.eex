@@ -1,15 +1,18 @@
 <div class="notes">
   <ul class="link-list">
     <%= for note <- @notes do %>
-      <div class="note-preview">
         <li>
-          <span class="rel-date">
-            <%= rel_from_now(note.published_at) %>
-          </span>
-          <%= link "#{note.title}", 
-          to: note_path(@conn, :show, note) %>
+            <span
+              class="rel-date tooltip tooltip-top"
+              data-tooltip="<%= simple_time(note.published_at) %>">
+              <%= rel_from_now(note.published_at) %>
+            </span>
+            <span class="note-title">
+              <%= link to: note_path(@conn, :show, note) do %>
+                <%= note.title %>
+              <% end %>
+            </span>
         </li>
-      </div>
     <% end %>
   </ul>
 </div>
