@@ -4,7 +4,6 @@ defmodule Pers.Admin.ProjectControllerTest do
 
   alias Pers.Project
   @valid_attrs %{desc: "some content",
-                 links: %{},
                  name: "some content",
                  status: "some content"}
 
@@ -35,7 +34,7 @@ defmodule Pers.Admin.ProjectControllerTest do
     # FIXME  do something with datetime fields
     assert json_response(conn, 200)["data"] == %{"id" => project.id,
       "name" => project.name,
-      "links" => project.links,
+      "metadata" => project.metadata,
       "desc" => project.desc,
       "status" => project.status,
       "published_at" => project.published_at,

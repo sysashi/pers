@@ -6,7 +6,6 @@ defmodule Pers.Project do
     field :status, :string
     field :name, :string
     field :published_at, Ecto.DateTime
-
     embeds_one :metadata, Pers.Project.Metadata
 
     many_to_many :tags, Tag, join_through: "projects_tags"

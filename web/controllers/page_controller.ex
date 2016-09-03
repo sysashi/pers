@@ -15,7 +15,7 @@ defmodule Pers.PageController do
 
   def show(conn, %{"page" => page_link}) do
     case Repo.get_by(Pers.Page, link: page_link) do
-      nil -> 
+      nil ->
         conn
         |> put_layout(false)
         |> put_status(:not_found)

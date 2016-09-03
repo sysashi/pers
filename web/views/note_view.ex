@@ -3,9 +3,29 @@ defmodule Pers.NoteView do
 
   def wrap_notes(notes, fun) do
     content_tag(:ul) do
-      traverse(notes, fun, {[], 0})
+      _wrap_notes(notes, fun, {[], 0})
     end
   end
+
+  defp _wrap_notes([], _fun, {acc, _}), do: acc |> Enum.reverse()
+
+  defp _wrap_notes([{key, list} | rest], fun, {acc, index}) when is_list(list) do
+    t = content_tag(:li, class: "nest-level-#{index}") do
+      ~E"""
+      <%= fun.({key, index}) %>
+      <%= content_tag(:ul, class: content_class(list)) do %>
+      <%= _wrap_notes(list, fun, {[], index + 1}) %>
+      <% end %>
+      """
+    end
+
+    _wrap_notes(rest, fun, {[t | acc], index})
+  end
+
+  defp _wrap_notes(list, fun, acc) when is_list(list) do
+    fun.(list) |> Enum.reverse()
+  end
+
 
   def group_by(list, date: date) do
     funs = Enum.map(date, fn fun when is_atom(fun) ->
@@ -30,7 +50,7 @@ defmodule Pers.NoteView do
       nil ->
         value = wrap(value, levels |> Enum.reverse())
         List.keystore(list, level, 0, value)
-      {key, [{_, _} | _] = data} when is_list(data) ->
+      {key, [{_, _} | _] = data} ->
         right = insert(data, value, rest)
         List.keystore(list, key, 0, {key, right})
       {key, data} when is_list(data) ->
@@ -55,26 +75,6 @@ defmodule Pers.NoteView do
     acc = insert(acc, fun.(v), level |> Enum.reverse())
     traverse_map(values, fun, {level, acc})
   end
-
-  defp traverse([], _fun, {acc, _}), do: acc |> Enum.reverse()
-
-  defp traverse([{key, list} | rest], fun, {acc, index}) when is_list(list) do
-    t = content_tag(:li, class: "nest-level-#{index}") do
-      ~E"""
-      <%= fun.({key, index}) %>
-      <%= content_tag(:ul, class: content_class(list)) do %>
-        <%= traverse(list, fun, {[], index + 1}) %>
-      <% end %>
-      """
-    end
-
-    traverse(rest, fun, {[t | acc], index})
-  end
-
-  defp traverse(list, fun, acc) when is_list(list) do
-    fun.(list) |> Enum.reverse()
-  end
-
 
   defp wrap(value, []), do: value
 
