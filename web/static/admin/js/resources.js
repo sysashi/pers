@@ -33,10 +33,15 @@ export const project = {
 export const menu = build_menu()
 
 function build_menu() {
+    const settings_menu = {
+        "admin": ["admin"]
+    }
   const menu_entries = {
     "notes": ["manage"],
     "pages": ["manage"],
-    "projects": ["manage"]
+    "projects": ["manage"],
+    "files": ["manage"],
+    "tags": ["manage"]
   }
 
   let menu = {}

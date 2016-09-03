@@ -12,7 +12,7 @@ defmodule Pers.Admin.ProjectView do
   def render("project.json", %{project: project}) do
     %{id: project.id,
       name: project.name,
-      links: project.links,
+      metadata: project.metadata,
       desc: project.desc,
       status: project.status,
       inserted_at: project.inserted_at,

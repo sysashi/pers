@@ -12,7 +12,7 @@ defmodule Pers.NoteViewTest do
       |> Enum.map(fn {n, d} -> %{n | published_at: d} end)
       |> Enum.sort(&(&1.published_at < &2.published_at))
 
-    grouped_notes = 
+    grouped_notes =
       [{2016, [
         {11, [:note]},
         {8, [:note, :note]}
@@ -33,18 +33,18 @@ defmodule Pers.NoteViewTest do
   end
 
   test "wrap grouped notes in html", context do
-    fun = fn 
-      list when is_list(list) -> 
-        IO.inspect(list)
-      other ->
-        IO.inspect("class #{other}")
+    fun = fn
+      list when is_list(list) ->
+        list
+      {key, level} ->
+        "#{key}"
     end
 
     result = context.grouped_notes
     |> map_grouped_notes(fn _ -> "note" end)
     |> wrap_notes(fun)
 
-    refute result
+    assert {:safe, r} = result
   end
 
   defp by_year(%{published_at: %{year: year}}), do: year

@@ -1,5 +1,6 @@
 defmodule Pers.Note do
   use Pers.Web, :model
+  use Pers.ModelHelpers, :publish
 
   schema "notes" do
     field :title, :string
@@ -15,9 +16,7 @@ defmodule Pers.Note do
   end
 
   @req_fields [:published, :title, :link, :markdown]
-  @doc """
-  Builds a changeset based on the `struct` and `params`.
-  """
+
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @req_fields)
@@ -36,27 +35,10 @@ defmodule Pers.Note do
     |> handle_markdown()
   end
 
-  # FIXME
-  def publish(note, params) do
-    already_published = !!params["published_at"]
-    publish? = !!params["published"]
-    cond do
-      publish? && already_published -> 
-        note
-      publish? && !already_published ->
-        note
-        |> put_change(:published_at, Ecto.DateTime.utc)
-      !publish? -> 
-        note
-        |> put_change(:published_at, nil)
-    end
-  end 
-
-
   def handle_markdown(changeset) do
-    html = 
+    html =
       changeset
-      |> get_field(:markdown) 
+      |> get_field(:markdown)
       |> md_to_html()
 
     put_change(changeset, :html, html)
@@ -79,7 +61,7 @@ defmodule Pers.Note do
   end
 
   def recent(limit \\ 10) do
-    from(n in published(), 
+    from(n in published(),
      limit: ^limit)
   end
 

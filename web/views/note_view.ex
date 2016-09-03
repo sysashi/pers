@@ -10,8 +10,8 @@ defmodule Pers.NoteView do
   def group_by(list, date: date) do
     funs = Enum.map(date, fn fun when is_atom(fun) ->
       &apply(__MODULE__, fun, [&1])
-    end) 
-    
+    end)
+
     group_by(list, funs)
   end
 
@@ -20,17 +20,17 @@ defmodule Pers.NoteView do
   end
 
   def group_by(list, funs) when is_list(list) and is_list(funs) do
-    Enum.reduce(list, [], fn entry, acc -> 
+    Enum.reduce(list, [], fn entry, acc ->
       insert(acc, entry, level(entry, funs))
     end)
   end
 
   defp insert(list, value, [level | rest] = levels) do
     case List.keyfind(list, level, 0) do
-      nil -> 
+      nil ->
         value = wrap(value, levels |> Enum.reverse())
         List.keystore(list, level, 0, value)
-      {key, [{_, _} | _] = data} when is_list(data) -> 
+      {key, [{_, _} | _] = data} when is_list(data) ->
         right = insert(data, value, rest)
         List.keystore(list, key, 0, {key, right})
       {key, data} when is_list(data) ->
@@ -51,17 +51,17 @@ defmodule Pers.NoteView do
     traverse_map(rest, fun, {level, right})
   end
 
-  defp traverse_map([v | values], fun, {level, acc}) do 
-    acc = insert(acc, fun.(v), level |> Enum.reverse()) 
+  defp traverse_map([v | values], fun, {level, acc}) do
+    acc = insert(acc, fun.(v), level |> Enum.reverse())
     traverse_map(values, fun, {level, acc})
   end
 
   defp traverse([], _fun, {acc, _}), do: acc |> Enum.reverse()
-  
-  defp traverse([{key, list} | rest], fun, {acc, index}) when is_list(list) do 
+
+  defp traverse([{key, list} | rest], fun, {acc, index}) when is_list(list) do
     t = content_tag(:li, class: "nest-level-#{index}") do
       ~E"""
-      <%= fun.({key, index}) %> 
+      <%= fun.({key, index}) %>
       <%= content_tag(:ul, class: content_class(list)) do %>
         <%= traverse(list, fun, {[], index + 1}) %>
       <% end %>
@@ -84,8 +84,8 @@ defmodule Pers.NoteView do
 
   defp level(note, funs) do
     funs
-    |> Enum.reduce([], 
-         fn fun, acc -> 
+    |> Enum.reduce([],
+         fn fun, acc ->
            [fun.(note) | acc]
          end)
     |> Enum.reverse()

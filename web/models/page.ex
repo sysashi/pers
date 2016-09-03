@@ -1,6 +1,6 @@
 defmodule Pers.Page do
   use Pers.Web, :model
-  alias Pers.Page
+  use Pers.ModelHelpers, :publish
 
   schema "pages" do
     field :title, :string
@@ -13,34 +13,15 @@ defmodule Pers.Page do
 
     timestamps
   end
-  
+
   @req_fields [:published, :title, :link, :html, :markdown]
-  @doc """
-  Builds a changeset based on the `struct` and `params`.
-  """
+
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @req_fields)
     |> validate_required([:link])
     |> unique_constraint(:link)
   end
-
-  # FIXME
-  def changeset(page, :publish, params) do
-    already_published = !!params["published_at"]
-    publish? = !!params["published"]
-    cond do
-      publish? && already_published -> 
-        page
-      publish? && !already_published ->
-        page
-        |> put_change(:published_at, Ecto.DateTime.utc)
-      !publish? -> 
-        page
-        |> put_change(:published_at, nil)
-    end
-  end 
-
 
   def published do
     from(p in Page,

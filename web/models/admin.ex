@@ -28,12 +28,18 @@ defmodule Pers.Admin do
     |> unique_constraint(:name)
   end
 
+  def create_changeset(struct, params) do
+    struct
+    |> changeset(params)
+    |> hash_password()
+  end
+
   def create(changeset) do
     changeset
     |> hash_password()
   end
 
   def hash_password(%Changeset{changes: %{password: password}} = c) do
-      put_change(c, :pwhash, Comeonin.Bcrypt.hashpwsalt(password)) 
+      put_change(c, :pwhash, Comeonin.Bcrypt.hashpwsalt(password))
   end
 end

@@ -11,7 +11,7 @@ defmodule Pers.Admin.PageController do
   def create(conn, %{"page" => page_params}) do
     changeset = %Page{}
     |> Page.changeset(page_params)
-    |> Page.changeset(:publish, page_params)
+    |> Page.publish(page_params)
 
     case Repo.insert(changeset) do
       {:ok, page} ->
@@ -35,7 +35,7 @@ defmodule Pers.Admin.PageController do
     page = Repo.get!(Page, id)
     changeset = page
     |> Page.changeset(page_params)
-    |> Page.changeset(:publish, page_params)
+    |> Page.publish(page_params)
 
     case Repo.update(changeset) do
       {:ok, page} ->

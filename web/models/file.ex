@@ -20,4 +20,8 @@ defmodule Pers.File do
     |> validate_required([:name])
     |> cast_attachments(params, [:source])
   end
+
+  def exclude_private(query) do
+    from(q in query, where: q.private == false)
+  end
 end

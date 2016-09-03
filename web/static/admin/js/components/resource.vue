@@ -1,36 +1,36 @@
 <template>
 <li v-bind:class="{ 'active': active }">
   <a
-    v-link="{name: resource.editor, params: {id: resource.id}}"  
+    v-link="{name: resource.editor, params: {id: resource.id}}"
     v-on:click="set_active(resource)"
     class="r-preview">
 
     <div class="title">
-      <span v-if="resource.title"> 
-      <strong> Title: </strong> 
+      <span v-if="resource.title">
+      <strong> Title: </strong>
         {{ resource.title }}
       </span>
 
-      <span v-if="resource.name"> 
-      <strong> Name: </strong> 
+      <span v-if="resource.name">
+      <strong> Name: </strong>
         {{ resource.name }}
       </span>
 
       <!-- <span class="mute" v-else><i>(empty)</i></span> -->
-      <span class="state old" 
-        transition="fadeinout" 
+      <span class="state old"
+        transition="fadeinout"
         v-if="any_changes">✘</span>
-      <span class="state published" 
+      <span class="state published"
         v-else
-        v-if="resource.published">●</span> 
+        v-if="resource.published">●</span>
       <!--
       <span class="state recent" v-if="active">✔</span>
       -->
     </div>
     <div class="link" v-if="resource.link">
       <span> Link: </span>
-      <span class="link"> 
-        {{ resource.link }} 
+      <span class="link">
+        {{ resource.link }}
       </span>
     </div>
     <!-- <span class="mute" v-else><i>(empty)</i></span> -->

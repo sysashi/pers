@@ -80,9 +80,11 @@ defmodule Pers.Web do
   defmacro common do
     quote do
       alias Pers.{
-        Repo,
         Project,
+        Page,
+        Repo,
         Note,
+        File,
         Tag
        }
     end

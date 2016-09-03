@@ -1,12 +1,4 @@
 <div class="projects-grid">
-  <% 
-    available_link_classes = ~w(github gitlab) 
-
-    links_count = fn 
-      nil -> 0
-      links -> length(Map.keys(links))
-    end
-  %> 
     <%= for project <- @projects do %>
           <div class="project-card">
             <div class="project-info">
@@ -16,15 +8,6 @@
               <div class="desc">
                 <span><%= project.desc %></span>
               </div>
-              <%= if links_count.(project.links) > 0 do %>
-                <div class="links">
-                  <%= for {_index, link} <- project.links do %>
-                      <%= link(link["showas"], to: link["path"], 
-                       class: if(link["showas"] in available_link_classes, 
-                       do: link["showas"], else: "default")) %> 
-                    <% end %>
-                </div>
-              <% end %>
             </div>
         </div>
     <% end %>

@@ -13,9 +13,8 @@ defmodule Pers.Admin.NoteControllerTest do
   end
 
   setup %{conn: conn} do
-    admin = %Pers.Admin{} 
-    |> Pers.Admin.changeset(%{name: "testme", password: "testme"})
-    |> Pers.Admin.create()
+    admin = %Pers.Admin{}
+    |> Pers.Admin.create_changeset(%{name: "testme", password: "testme"})
 
     Repo.insert(admin)
 

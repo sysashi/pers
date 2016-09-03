@@ -6,8 +6,8 @@ defmodule Pers.Repo.Migrations.CreateProject do
       add :desc, :text
       add :name, :string
       add :status, :string
-      add :links, :map
       add :published_at, :datetime
+      add :metadata, :map
 
       timestamps
     end

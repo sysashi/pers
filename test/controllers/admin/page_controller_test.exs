@@ -7,9 +7,8 @@ defmodule Pers.Admin.PageControllerTest do
   @invalid_attrs %{link: ""}
 
   setup %{conn: conn} do
-    admin = %Pers.Admin{} 
-    |> Pers.Admin.changeset(%{name: "testme", password: "testme"})
-    |> Pers.Admin.create()
+    admin = %Pers.Admin{}
+    |> Pers.Admin.create_changeset(%{name: "testme", password: "testme"})
 
     Repo.insert(admin)
 

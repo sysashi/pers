@@ -3,17 +3,16 @@ defmodule Pers.Admin.ProjectControllerTest do
   import Plug.Test
 
   alias Pers.Project
-  @valid_attrs %{desc: "some content", 
-                 links: %{}, 
-                 name: "some content", 
+  @valid_attrs %{desc: "some content",
+                 links: %{},
+                 name: "some content",
                  status: "some content"}
 
   @invalid_attrs %{}
 
   setup %{conn: conn} do
-    admin = %Pers.Admin{} 
-    |> Pers.Admin.changeset(%{name: "testme", password: "testme"})
-    |> Pers.Admin.create()
+    admin = %Pers.Admin{}
+    |> Pers.Admin.create_changeset(%{name: "testme", password: "testme"})
 
     Repo.insert(admin)
 
