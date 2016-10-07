@@ -14,8 +14,8 @@ defmodule Pers.Router do
     plug :fetch_session
   end
 
-  scope "/admin" do
-    scope "/", Pers.Admin do
+  scope "/admin", Pers.Admin do
+    scope "/" do
       pipe_through [:browser, Pers.Common.AdminLayout]
 
       get "/", SessionController, :login_page
@@ -27,13 +27,15 @@ defmodule Pers.Router do
       end
     end
 
-    scope "/api", as: "admin", alias: Pers.Admin do
+    scope "/api", as: "admin" do
       pipe_through [:api, Pers.AdminAuth.EnsureAdmin]
 
       resources "/notes", NoteController
       resources "/pages", PageController
       resources "/projects", ProjectController
-
+      # TODO
+      # resources "/files", FileController
+      # post "/file_upload", FileUploadController, :upload
     end
   end
 
@@ -42,8 +44,8 @@ defmodule Pers.Router do
 
     resources "/notes", NoteController, only: [:index, :show]
     resources "/projects", ProjectController, only: [:index, :show]
-    resources "/files", FileController, only: [:index, :show]
-    post "/file_upload", FileUploadController, :upload
+    # TODO
+    # resources "/files", FileController, only: [:index, :show]
 
     get "/sitemap.xml", SitemapController, :sitemap
     get "/", PageController, :index

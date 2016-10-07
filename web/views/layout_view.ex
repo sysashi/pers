@@ -4,8 +4,7 @@ defmodule Pers.LayoutView do
   def menu do
      ["home": "/",
       "about me": "/about",
-      "notes archive": "/notes",
-      "files": "/files"]
+      "notes archive": "/notes"]
   end
 
   def active?(%Plug.Conn{path_info: []}, path) do

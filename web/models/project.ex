@@ -22,10 +22,9 @@ defmodule Pers.Project do
     |> validate_required([:desc, :name])
   end
 
-  def recent(limit) do
+  def recent do
     from(p in Project,
-     order_by: [desc: p.published_at],
-     limit: ^limit)
+     order_by: [desc: p.published_at])
   end
 
   def projects_sitemap do
@@ -51,6 +50,7 @@ defmodule Pers.Project.Metadata do
     struct
     |> cast(params, [:color])
     |> cast_embed(:links)
+    |> validate_format(:color, ~r//)
   end
 end
 

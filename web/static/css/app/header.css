@@ -41,4 +41,11 @@ header {
     text-transform: lowercase;
     font-style: italic;
     border: none;
+
+    &.active {
+        font-weight: bold;
+        border-bottom: 2px solid;
+        border-color: #da5d5d;
+    }
+
 }

@@ -6,8 +6,7 @@
       <p><%= @error.message %></p>
     <% end %>
     </div>
-    <%= form_for @changeset, session_path(@conn, :create), 
-        fn f -> %> 
+    <%= form_for @changeset, session_path(@conn, :create), fn f -> %>
 
       <%= label f, :name %>
       <%= text_input f, :name %>
@@ -15,7 +14,7 @@
       <%= label f, :password %>
       <%= password_input f, :password %>
 
-    <%= submit "Let me in", class: "submit-button" %>
+    <%= submit "Let me in" %>
     <% end %>
   </div>
 </div>

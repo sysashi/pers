@@ -32,11 +32,6 @@ a {
         color: color(var(--link-color) blackness(50%));
     }
 
-    &.active {
-        font-weight: bold;
-        border-color: #da5d5d;
-    }
-
     &.back {
         border: none;
         &:hover {

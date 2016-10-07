@@ -10,7 +10,6 @@ defmodule Pers.Repo.Migrations.CreateFile do
 
       timestamps()
     end
-    
     create index(:files, [:admin_id])
   end
 end

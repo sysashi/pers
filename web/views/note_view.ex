@@ -84,10 +84,7 @@ defmodule Pers.NoteView do
 
   defp level(note, funs) do
     funs
-    |> Enum.reduce([],
-         fn fun, acc ->
-           [fun.(note) | acc]
-         end)
+    |> Enum.reduce([], fn fun, acc -> [fun.(note) | acc] end)
     |> Enum.reverse()
   end
 

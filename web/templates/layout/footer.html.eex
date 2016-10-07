@@ -1,6 +1,6 @@
 <footer class="footer">
   <div>
-    <a href="#"> send direct message</a>
+    <!-- <a href="#"> send direct message</a> -->
     <%= link("about this site", to: "/about-site",
      class: active?(@conn, "about-site")) %>
   </div>
@@ -11,6 +11,6 @@
   </div>
   <div class="license-info">
     <span>© 2016</span>
-    <span>Unless explicitly stated otherwise content is under a <a style="border: none;"rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> license</span>
+    <!-- <span>Content is under a <a style="border: none;" rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a> license</span> -->
     </div>
 </footer>

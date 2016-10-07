@@ -2,12 +2,13 @@ defmodule Pers.PageController do
   use Pers.Web, :controller
 
   def index(conn, _params) do
+    IO.inspect conn.method
     data = [
       recent_notes: Note.recent(3)
       |> Repo.all()
       |> Repo.preload(:tags),
 
-      recent_projects: Project.recent(5)
+      recent_projects: Project.recent
       |> Repo.all()
     ]
     render conn, "index.html", data
